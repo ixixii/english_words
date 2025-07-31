@@ -76,6 +76,59 @@ some english words
 |149|loiter|The security guard told the teenagers not to loiter in front of the store.|保安告诉那些青少年不要在商店门前闲逛。|v. 虚度，闲荡，徘徊，走走停停|
 |150|defunct|The defunct company's assets were sold at auction.|这家已倒闭公司的资产在拍卖会上被出售了。|adj. 已故的，不复存在的|
 
+151到200
+|序号|生词|例句|中文意思|词义|
+|---|---|---|---|---|
+|151|dilapidated|The old house on the corner looks dilapidated, with broken windows and a collapsing roof.|街角的那座老房子看起来破旧不堪，窗户破了，屋顶也塌了。|adj. 破旧的，破烂的|
+|152|spurious|The company was selling spurious designer handbags at a fraction of the real price.|这家公司在以远低于正品的价格出售伪造的名牌手袋。|adj. 假的，伪造的，欺骗的|
+|153|perk|One of the perks of this job is getting a free gym membership.|这份工作的福利之一是可以获得免费的健身房会员资格。|n. 福利；v. 昂首，意气洋洋，振作|
+|154|strained|There was a strained silence between them after their argument.|他们争吵后，两人之间陷入了紧张的沉默。|adj. 紧张的，不友善的，勉强的，不自然的(态度等)|
+|155|cryptic|He left a cryptic message on her voicemail that she couldn't figure out.|他在她的语音信箱里留了一条含义模糊的信息，她弄不明白。|adj. 秘密的，含义模糊的，神秘的，隐藏的|
+|156|contort|His face contorted in pain when he fell down the stairs.|他从楼梯上摔下来时，脸因疼痛而扭曲。|v. 扭曲，歪曲|
+|157|precipitate|Making a precipitate decision without thinking it through could lead to big mistakes.|不加思考就仓促做决定可能会导致大错。|adj. 仓促的，贸然的，轻率的；v. 【气象】凝结|
+|158|bawl|The baby started to bawl loudly when his mother left the room.|妈妈离开房间时，婴儿开始放声大哭。|v. 大叫，大喊，放声痛哭|
+|159|puberty|During puberty, teenagers go through many physical and emotional changes.|青春期期间，青少年会经历许多生理和心理上的变化。|n. 青春期|
+|160|cringe|She couldn't help but cringe when she saw the embarrassing video of herself.|看到自己那段尴尬的视频，她忍不住感到难为情。|v. 觉得尴尬；感到尴尬不安；觉得难为情；n. 畏缩|
+|161|equable|She has an equable temperament and rarely gets angry.|她性情温和，很少生气。|adj. 温和，平均，稳定的，不变的，(脾气)温和的|
+|162|devastate|The hurricane devastated the small coastal town, leaving many homeless.|飓风摧毁了这个沿海小镇，让许多人无家可归。|v. 摧毁；使垮掉，使不知所措，使陷于混乱|
+|163|contingent|A contingent of athletes from our school will attend the national competition.|我们学校的一个运动员代表团将参加全国比赛。|n. 代表团；adj. 意外的|
+|164|matriculate|She worked hard for years to matriculate at her dream university.|她努力了多年，终于被她梦想中的大学录取。|v. 被大学录取；n. 被录取者|
+|165|nab|The police managed to nab the thief as he was trying to escape.|警察在小偷试图逃跑时成功将其逮捕。|v. 逮捕，攫取|
+|166|corps|The medical corps was sent to the disaster area to help the injured.|医疗队被派往灾区救助伤员。|n. (由两个或以上师组成的)军，兵团；一群人|
+|167|recline|She likes to recline on the sofa and read books in the evening.|她晚上喜欢斜倚在沙发上看书。|vi. 躺，斜倚(常与on, upon或against连用)|
+|168|stark|The stark contrast between the rich and the poor in the city is obvious.|这座城市里贫富之间的明显差距很显著。|adj. (区别)明显的；完全的，十足的；荒凉的|
+|169|extradite|The country agreed to extradite the suspect to face trial in the United States.|这个国家同意将嫌疑人引渡到美国受审。|v. 引渡，获取…的引渡|
+|170|gratuitous|His gratuitous criticism of her work was unnecessary and hurtful.|他对她工作无端的批评是不必要且伤人的。|adj. 不必要的，无端的|
+|171|derogatory|Making derogatory comments about someone's appearance is rude and unkind.|对别人的外貌发表贬损性评论是粗鲁且不友善的。|adj. 贬损的，贬低的；不敬的，诽谤的|
+|172|bigot|He's a religious bigot who refuses to accept anyone with different beliefs.|他是个宗教偏执者，拒绝接受任何有不同信仰的人。|n. (宗教，种族、政治等的)偏执者，盲信者|
+|173|felicity|The couple lived in felicity for many years, enjoying every moment together.|这对夫妇幸福地生活了很多年，享受着在一起的每一刻。|n. 幸福，快乐，幸运|
+|174|vandalism|The park has suffered a lot of vandalism, with benches broken and signs spray-painted.|这个公园遭到了很多恶意破坏，长椅被砸，指示牌被乱涂乱画。|n. (对公物)恶意破坏|
+|175|transitory|The beauty of the sunset is transitory, lasting only a few minutes.|日落的美景是短暂的，只持续几分钟。|adj. 短暂的，暂时的，瞬息的|
+|176|perfunctory|He gave a perfunctory apology, clearly not really sorry for his actions.|他敷衍地道歉了，显然对自己的行为并不真的感到抱歉。|adj. 草率的，敷衍搪塞的|
+|177|pasta|We had pasta with tomato sauce for dinner last night.|昨晚我们晚餐吃了番茄酱汁意大利面。|n. 意大利面食|
+|178|extrapolate|From the data we have, we can extrapolate that sales will continue to rise next year.|根据我们掌握的数据，我们可以推断明年销售额将继续上升。|v. 进行推断|
+|179|evanescent|The evanescent smile on her face disappeared as soon as she heard the bad news.|她脸上那短暂的笑容在听到坏消息后立刻消失了。|adj. 短暂的，容易消散的，(印象等)逐渐消失的|
+|180|inmate|The prison offers various programs to help inmates prepare for life after release.|监狱提供各种项目，帮助囚犯为释放后的生活做准备。|n. 囚犯；(精神病院等中的)被收容者|
+|181|ingratiating|He had an ingratiating manner, always trying to please everyone around him.|他举止谄媚，总是试图取悦周围的每个人。|adj. 讨好的，谄媚的|
+|182|fret|Don't fret too much about the exam; you've studied hard and will do well.|别太为考试烦恼了，你已经努力学习了，会考好的。|v. 烦恼，焦急；n. (吉他等弦乐器指板上定音的)品|
+|183|corpulent|The corpulent man found it difficult to climb the stairs without getting out of breath.|这个肥胖的男人爬楼梯时很难不气喘吁吁。|adj. 肥胖的|
+|184|hackneyed|The movie's plot was predictable and filled with hackneyed phrases like "love conquers all".|这部电影的情节很老套，充满了“爱能征服一切”之类的陈词滥调。|adj. 陈腐的，平常的|
+|185|execrable|The service at that restaurant was execrable, with rude staff and cold food.|那家餐馆的服务极差，员工态度粗鲁，食物也是冷的。|adj. 极坏的|
+|186|tenet|One of the tenets of democracy is that all citizens have equal rights.|民主的原则之一是所有公民都享有平等的权利。|n. 信念，原则，教条|
+|187|intrepid|The intrepid explorer ventured into the unknown jungle without fear.|这位勇敢的探险家毫无畏惧地闯入了未知的丛林。|adj. 刚毅的，勇敢的|
+|188|impertinent|It's impertinent to ask someone about their salary when you first meet them.|初次见面就问别人的薪水是不恰当的。|adj. 不恰当的，粗鲁的|
+|189|precinct|The police officer patrols the same precinct every day to ensure safety.|这位警察每天在同一个管辖区巡逻以确保安全。|n. 管理区，管辖区；选区；界限，范围|
+|190|upstart|The new upstart in the company thinks he knows everything and ignores the advice of experienced colleagues.|公司里的这个新贵自认为无所不知，无视资深同事的建议。|n. 傲慢自负的人，暴发户，自命不凡的人；adj. 暴发的|
+|191|figurehead|The king was just a figurehead, with the real power lying in the hands of the prime minister.|国王只是个名义领袖，真正的权力掌握在首相手中。|n. 名义领袖；(过去的)艏饰像|
+|192|veer|The conversation veered suddenly from work to personal life.|谈话突然从工作转向了个人生活。|v. 转向，改变(话题等)，放松(绳、缆等)；n. 转向|
+|193|invidious|Comparing the two children's achievements in front of them is an invidious thing to do.|在两个孩子面前比较他们的成绩是一件不公平、惹人反感的事。|adj. 不公平的，惹人反感的|
+|194|pamper|She pampers her dog, buying it expensive toys and special food.|她过分宠爱她的狗，给它买昂贵的玩具和特制的食物。|v. 纵容，过分关怀，精心照料|
+|195|commensurate|The salary offered is commensurate with the level of experience required for the job.|所提供的薪水与这份工作所需的经验水平是相称的。|adj. 相称的，相应的；同样大小的|
+|196|reprove|The teacher reproved the student for talking during the lecture.|老师因学生在课堂上说话而责骂了他。|v. 责骂，申斥|
+|197|interlude|There was a short interlude between the two parts of the concert, allowing the audience to stretch their legs.|音乐会的两部分之间有一段短暂的间歇，让观众可以活动一下。|n. 间歇；幕间节目|
+|198|vernacular|She likes to write in the vernacular of her hometown, making her stories more authentic.|她喜欢用家乡的方言写作，让她的故事更真实。|n. 方言；adj. 本国的，地方的，用本地语写成的|
+|199|esoteric|The book is filled with esoteric theories that only experts in the field can understand.|这本书里满是常人难以理解的理论，只有该领域的专家才能看懂。|adj. 常人难以理解的|
+|200|shack|They built a small shack in the woods where they could go for weekends to relax.|他们在树林里建了一个小棚屋，周末可以去那里放松。|n. 棚屋；v. 居住|
 
 
 
