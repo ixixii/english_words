@@ -1,5 +1,89 @@
-# english_words
+# english_words 
 some english words
+1到80
+|序号|生词|例句|中文意思|词义|
+|---|---|---|---|---|
+|1|foreclose|The bank may foreclose if the mortgage isn't paid on time.|如果抵押贷款不能按时偿还，银行可能会取消赎回权。|v. 排除，取消抵押品的赎回权|
+|2|placard|They hung a placard outside the building to announce the event.|他们在大楼外挂了一个标语牌来宣布这件事。|n. 招贴，海报，标语牌；v. 张贴布告，公布某事|
+|3|stockpile|The country has begun to stockpile medical supplies for emergencies.|这个国家已开始储备医疗用品以应对紧急情况。|v. 储备，贮存；n. 储备|
+|4|impassioned|She made an impassioned speech in support of the proposal.|她发表了一篇慷慨激昂的演讲来支持这项提案。|adj. 慷慨激昂的，充满激情的|
+|5|barrage|The team faced a barrage of questions from the reporters after the game.|比赛后，这支队伍面临着记者们一连串的提问。|n. 大量；【水利】拦河坝；v. 以密集火力阻击|
+|6|dab|She dabbed a little cream on the wound.|她在伤口上轻涂了一点药膏。|v. 轻拍，涂，轻擦，轻敷；n. 轻拍，少量，熟手|
+|7|occidental|Occidental art differs from oriental art in many ways.|西方艺术在很多方面与东方艺术不同。|adj. 西方(的)；n. 西方，西洋人|
+|8|quaint|We visited a quaint village with cobblestone streets.|我们参观了一个有着鹅卵石街道的古雅村庄。|adj. 古雅的；精巧的|
+|9|injunction|The court issued an injunction to stop the factory from polluting the river.|法院发布了禁令，禁止工厂污染河流。|n. 【法】指令，禁令|
+|10|speckle|The bird's wings are speckled with white spots.|这只鸟的翅膀上布满了白色斑点。|v. 使弄上斑点，沾污；n. (皮肤、鸟的羽毛或鸡蛋等上的)斑点|
+|11|boggle|The complexity of the problem boggled his mind.|这个问题的复杂性让他感到困惑。|v. 使……困惑；畏缩不前|
+|12|ignominy|He suffered the ignominy of being caught cheating in the exam.|他蒙受了考试作弊被抓的耻辱。|n. 耻辱，不体面，丑行|
+|13|hallmark|Quality is the hallmark of this brand.|品质是这个品牌的特点。|n. 品质证明；特点；v. 给…盖上品质证明印记|
+|14|practicality|When choosing a car, she values practicality over speed.|选车时，她更看重实用性而非速度。|n. 实用性，实际性|
+|15|lyrical|The poet wrote a lyrical description of the sunset.|这位诗人对日落进行了富有抒情意味的描写。|adj. 感情丰富的；抒情诗调的|
+|16|heterogeneous|The city has a heterogeneous population from various countries.|这座城市有来自不同国家的多样化人口。|adj. 多相的，异种的，不均匀的，由不同成分形成的|
+|17|manifestation|Her smile was a clear manifestation of her happiness.|她的微笑是她幸福的明显表现。|n. 表现，表示；示威运动|
+|18|amoral|The character in the book is amoral, caring only about personal gain.|书中的这个角色没有道德观念，只在乎个人利益。|adj. 不分是非的，无道德观念的|
+|19|epilogue|The novel's epilogue tells what happens to the characters 10 years later.|这部小说的尾声讲述了10年后这些人物的遭遇。|n. 尾声；收场白|
+|20|feckless|He's a feckless young man who never keeps a job for long.|他是个不负责任的年轻人，一份工作从来做不长。|adj. 不负责任的，无目标无计划的，无效的|
+|21|evolutionary|There have been many evolutionary changes in this species over time.|随着时间的推移，这个物种发生了许多进化上的变化。|adj. 进化的，演进的|
+|22|flunk|He flunked his math test because he didn't study.|他数学考试不及格，因为他没学习。|v. 考试不及格；n. 失败，不及格|
+|23|probation|The new employee will be on probation for three months.|这位新员工将有三个月的试用期。|n. 试用；缓刑；察看|
+|24|interlock|The gears interlock to make the machine run smoothly.|齿轮相互咬合，使机器平稳运转。|v. 连锁，连串|
+|25|morbid|She has a morbid interest in stories about serial killers.|她对连环杀手的故事有种病态的兴趣。|adj. (精神等)病态的|
+|26|potent|This drug has a potent effect on relieving pain.|这种药在止痛方面效果显著。|adj. 强有力的；有说服力的|
+|27|emulate|Many students try to emulate the top student in their class.|许多学生努力效仿班里的尖子生。|v. 效仿；努力赶上(超过)|
+|28|assertive|You need to be more assertive when negotiating a salary.|谈判薪资时，你需要更坚定自信一些。|adj. 决断的；坚定而自信的|
+|29|ethos|The company's ethos is to put customers' needs first.|这家公司的理念是把客户需求放在首位。|n. 民族精神，气质，社会思潮|
+|30|sensuous|The sensuous melody of the music made her relax.|这首音乐悦耳的旋律让她放松下来。|adj. 感觉上的，依感观的，诉诸美感的|
+|31|rationale|The teacher explained the rationale behind the new teaching method.|老师解释了这种新教学方法背后的基本原理。|n. 基本原理；原理的阐述|
+|32|viable|We need to find a viable solution to the environmental problem.|我们需要找到一个解决环境问题的可行办法。|adj. 可行的|
+|33|balm|The lotion acts as a balm for dry and sensitive skin.|这种乳液对干燥敏感的皮肤有舒缓作用。|n. 香油，止痛膏，安慰物，香气|
+|34|forestall|He tried to forestall criticism by apologizing in advance.|他试图通过提前道歉来阻止批评。|v. 领先；占先一步；先发制人，阻止，妨碍|
+|35|prophesy|Some people prophesy that there will be a technological revolution soon.|一些人预言很快会有一场科技革命。|v. 预言，预报|
+|36|atrocious|The food in that restaurant is atrocious.|那家餐馆的食物糟透了。|adj. 糟透的，残暴的，骇人听闻的|
+|37|dire|The company is in dire need of financial support.|这家公司急需资金支持。|adj. 可怕的；极端的|
+|38|itinerant|The itinerant musician travels from town to town playing the guitar.|这位巡回音乐家辗转于各个城镇弹吉他。|adj. 流动的；n. 巡回工作者|
+|39|foreboding|She had a sense of foreboding before the accident.|事故发生前，她有种不祥的预感。|adj. 预感，预兆；预感的，不祥之兆的|
+|40|allusion|The poem contains an allusion to a ancient myth.|这首诗包含对一个古老神话的暗示。|n. 暗示|
+|41|vial|The doctor handed her a vial of medicine with instructions.|医生递给她一小瓶药并说明了用法。|n. 小瓶，药水瓶；v. 装入小瓶|
+|42|exemplary|His exemplary behavior set a good example for the other students.|他的模范行为为其他学生树立了好榜样。|adj. 模范的，可仿效的|
+|43|pedagogic|The professor's pedagogic approach is popular among students.|这位教授的教学方法很受学生欢迎。|adj. 教育学的|
+|44|gallant|The gallant soldier risked his life to save the child.|这位勇敢的士兵冒着生命危险救了那个孩子。|adj. 勇敢的；(男子对女子)殷勤的|
+|45|barrow|The farmer used a barrow to carry vegetables from the field.|农夫用手推车把蔬菜从田里运回来。|n. 手推车，搬运架|
+|46|daffodil|Daffodils bloom in spring, adding color to the garden.|水仙花在春天绽放，为花园增添了色彩。|n. 水仙花；adj. 水仙花色的|
+|47|transcript|She requested an official transcript of her grades from the school.|她向学校申请了一份官方成绩单。|n. 成绩单|
+|48|finesse|He handled the difficult situation with great finesse.|他以高超的技巧处理了这个棘手的局面。|n. 技巧，计谋，策略；v. 以技巧取胜|
+|49|harbinger|The first buds on the trees are a harbinger of spring.|树上的第一簇嫩芽是春天的先兆。|n. 先驱，先兆|
+|50|finery|She dressed in her finest finery for the wedding.|她穿着最华丽的服饰参加婚礼。|n. 服饰，华丽的服饰，鲜艳服装，装饰|
+|51|hype|There was a lot of hype about the new movie, but it wasn't very good.|这部新电影有很多宣传，但其实并不好看。|n. 大肆宣传；v. 大肆宣传|
+|52|surreptitious|He took a surreptitious look at his phone during the meeting.|开会时他偷偷看了一眼手机。|adj. 鬼鬼祟祟的，暗中的，秘密的|
+|53|expedite|We need to expedite the delivery of the goods.|我们需要加快货物的递送。|v. 促进；加快；发出；adj. 迅速的|
+|54|transcend|His achievements transcend those of his predecessors.|他的成就超过了他的前辈。|v. 超越(经验、理性、信念等的范围)，超过，超出|
+|55|flimsy|The tent is made of flimsy material and won't withstand strong winds.|这个帐篷是用单薄的材料做的，经不起大风。|adj. 轻而薄的，脆弱的，没有价值的，不足信的|
+|56|hidebound|The hidebound manager refused to accept new ideas.|这位思想僵化的经理拒绝接受新想法。|adj. 死板的，顽固的，墨守成规的|
+|57|girdle|A wide river girdles the ancient city.|一条宽阔的河流环绕着这座古城。|n. 妇女紧身褡；腰带；v. 围，包围，环绕|
+|58|pompous|He spoke in a pompous tone, trying to impress everyone.|他说话语气傲慢，想给每个人留下深刻印象。|adj. 傲慢的，浮华的|
+|59|ascertain|The police are trying to ascertain the cause of the fire.|警方正试图查明火灾的原因。|v. 探知，弄清，查明(真相等)|
+|60|haggard|After staying up all night, she looked haggard.|熬了一整夜后，她看起来很憔悴。|adj. 憔悴的，消瘦的|
+|61|reverence|He showed great reverence for his grandfather.|他对祖父表现出极大的崇敬。|n. 崇敬，尊严，敬礼；v. 敬畏，尊敬|
+|62|ambivalent|She feels ambivalent about moving to a new city.|她对搬到新城市感到矛盾。|adj. 矛盾的；摇摆不定的；好恶相克的|
+|63|silica|Sand is mainly composed of silica.|沙子主要由二氧化硅组成。|n. 二氧化硅，硅石|
+|64|evasive|He gave an evasive answer when asked about his plans.|当被问及他的计划时，他给出了一个避而不谈的回答。|adj. 逃避的，避而不谈的；托辞的，推托的|
+|65|exalt|The manager exalted her for her excellent performance.|经理因她的出色表现而赞扬了她。|v. 提升，提拔，赞扬，使得意|
+|66|incoming|We need to prepare for the incoming storm.|我们需要为即将到来的暴风雨做准备。|n. 进来，到来，收入；adj. 引入的，到来的，打入的|
+|67|contraception|There are various methods of contraception available.|有多种避孕方法可供选择。|n. 避孕，避孕法|
+|68|regularity|Exercising with regularity is good for your health.|有规律地锻炼对你的健康有益。|n. 规律性|
+|69|scrutinize|The teacher scrutinized the students' papers for errors.|老师仔细检查学生的试卷寻找错误。|v. 仔细检查，细看|
+|70|repression|The repression of free speech caused public anger.|对言论自由的压制引起了公众的愤怒。|n. 压抑，压制，镇压|
+|71|treble|The company's profits trebled in just one year.|这家公司的利润仅一年内就增长了两倍。|adj. 三倍的，最高声部的；n. 最高声部；v. 使成三倍|
+|72|rectitude|He is a man of great rectitude, always doing what is right.|他是一个非常正直的人，总是做正确的事。|n. 正直，公正，正确|
+|73|homogenize|Modern media has helped to homogenize cultural differences.|现代媒体有助于消除文化差异，使文化变得类同。|vt. 使均匀，使类同；vi. 变均匀|
+|74|ineluctable|Change is an ineluctable part of life.|变化是生活中不可避免的一部分。|adj. 不可改变的，无法逃避的|
+|75|irreverent|His irreverent remarks about the leader offended many people.|他对领导的不敬言论冒犯了很多人。|adj. 不敬的，无礼的|
+|76|indemnity|The insurance company paid him an indemnity for the car damage.|保险公司为他的车损支付了赔偿金。|n. 补偿，赔偿；赔偿物|
+|77|squalid|The refugees were living in squalid conditions.|难民们生活在污秽的环境中。|adj. 污秽的，肮脏的，卑劣的|
+|78|multitude|A multitude of people gathered in the square to watch the parade.|一大群人聚集在广场上观看游行。|n. 大量；众多；大批百姓；群众|
+|79|synoptic|The synoptic report gives a brief overview of the project.|这份概要报告对项目进行了简要概述。|adj. 天气的，概要的，一览无余的|
+|80|demeanor|Her calm demeanor during the crisis impressed everyone.|她在危机中的镇定举止给每个人留下了深刻印象。|n. 举止，行为，风度|
+
 1到100
 |序号|生词|词义|
 |---|---|---|
