@@ -1,5 +1,84 @@
 # english_words
 some english words
+
+
+81到150
+|序号|生词|例句|中文意思|词义|
+|---|---|---|---|---|
+|81|bizarre|She wore a bizarre costume to the themed party, with neon colors and夸张的配饰.|她穿着一套稀奇古怪的服装去参加主题派对，有着霓虹色和夸张的配饰。|adj. 稀奇古怪的|
+|82|deviant|The study focuses on identifying factors that may lead to deviant behavior in adolescents.|这项研究着重于找出可能导致青少年行为越轨的因素。|adj. 变态的，反常的(多指性行为)；越出常规的|
+|83|pretentious|He always uses big words in casual conversations, which makes him seem pretentious.|他总在日常对话中用些深奥的词，显得很自命不凡。|adj. 做作的，自命不凡的，炫耀的|
+|84|omniscient|In the novel, the omniscient narrator knows every character's thoughts and secrets.|在这部小说里，全知的叙述者知晓每个角色的想法和秘密。|adj. 无所不知的，博识的；n. 无所不知者，上帝|
+|85|misgiving|Despite her excitement about the trip, she had a misgiving that something might go wrong.|尽管对这次旅行很兴奋，她还是有种不祥的预感，觉得可能会出岔子。|n. 疑虑|
+|86|infernal|The infernal noise from the construction site kept me awake all night.|建筑工地那可恶的噪音让我一整夜都没睡着。|adj. 可憎的，可恶的，坏透的；地狱的；恶魔的|
+|87|amphibious|Frogs are amphibious creatures, able to live both on land and in water.|青蛙是两栖动物，既能在陆地上生活，也能在水里生活。|adj. 两栖的|
+|88|insidious|The disease has an insidious onset, with symptoms that don't appear until it's advanced.|这种疾病发病隐匿，症状要到晚期才会显现。|adj. 潜在的|
+|89|respectability|After years of hard work, he finally achieved the respectability he had always desired in the community.|经过多年的努力，他终于在社区里获得了自己一直渴望的体面地位。|n. 体面，可尊敬，有社会地位|
+|90|fatality|The car crash resulted in one fatality and three injuries.|这次车祸造成一人死亡，三人受伤。|n. 死亡；不幸，灾祸|
+|91|ethics|Doctors must follow strict medical ethics when treating patients.|医生治疗病人时必须遵守严格的医疗伦理。|n. 行为准则|
+|92|crook|The old man was tricked by a crook who pretended to be his long-lost nephew.|老人被一个冒充他失散多年侄子的骗子骗了。|n. 弯曲处；骗子，罪犯；v. 使弯曲|
+|93|doodle|She likes to doodle on the margins of her notebook during meetings.|开会时，她喜欢在笔记本的页边空白处乱涂乱画。|v. (无目的地)乱画，漫无目的地打发时光|
+|94|snooty|The snooty waiter looked down on us because we were wearing casual clothes.|那个傲慢的服务员因为我们穿着休闲装而瞧不起我们。|adj. 自大的，傲慢的|
+|95|nonchalant|He acted nonchalant when he heard the news, as if it didn't matter to him.|听到这个消息时，他表现得若无其事，好像这事跟他没关系一样。|adj. 若无其事的|
+|96|astrology|She's interested in astrology and reads her horoscope every morning.|她对占星术很感兴趣，每天早上都看自己的星座运势。|n. 占星学，占星术，星座|
+|97|conflate|The article conflates two different theories, making it hard to understand.|这篇文章把两种不同的理论混为一谈，让人难以理解。|v. 合并|
+|98|disclaim|The company disclaimed any responsibility for the accident caused by improper use.|公司拒绝为因使用不当造成的事故承担任何责任。|v. 拒绝承认，拒绝，放弃权利|
+|99|stamina|Long-distance running requires a lot of physical stamina.|长跑需要很强的体力耐力。|n. 耐力，持久力|
+|100|volatile|The stock market can be very volatile, with prices changing rapidly.|股市波动很大，价格会快速变化。|adj. 不稳定的；反复无常的|
+|101|maxim|"Honesty is the best policy" is a well-known maxim.|“诚实为上策”是一句著名的座右铭。|n. 座右铭|
+|102|lenience|The judge showed lenience to the first-time offender and gave him a light sentence.|法官对这位初犯从宽处理，判了轻刑。|n. 宽大，温和|
+|103|impetuous|His impetuous decision to quit his job without another offer led to financial problems.|他冲动地在没找到另一份工作的情况下辞了职，导致了经济问题。|adj. 冲动的，鲁莽的|
+|104|imbecile|Only an imbecile would believe such a ridiculous story.|只有傻瓜才会相信这么荒谬的故事。|n. 低能者，愚蠢的人；adj. 低能的，愚笨的，虚弱的|
+|105|fidget|The child started to fidget in his seat during the long lecture.|在冗长的讲座中，那个孩子开始在座位上坐立不安。|v. 坐立不安；n. 烦躁之人，烦躁|
+|106|relentless|The relentless rain caused flooding in many parts of the city.|持续不断的降雨导致城市很多地方发生了洪水。|adj. 持续强烈的，不减弱的|
+|107|depository|The library serves as a depository for many rare historical documents.|这家图书馆是许多珍贵历史文献的贮藏所。|n. 贮藏所，受托者；adj. 保管的，存储的|
+|108|impel|Her passion for justice impelled her to become a lawyer.|对正义的热爱驱使她成为了一名律师。|v. 推进，驱使|
+|109|pertain|The rules that pertain to this project are clearly stated in the manual.|与这个项目相关的规定在手册里写得很清楚。|v. 有关；适合|
+|110|luscious|The bakery sells luscious cakes that melt in your mouth.|这家面包店出售的美味蛋糕入口即化。|adj. 美味的；满足感官的|
+|111|critique|The professor wrote a detailed critique of the student's research paper.|教授对学生的研究论文写了一份详细的评论。|v. 批判，评论；n. 评论文章|
+|112|bountiful|The bountiful harvest this year made the farmers very happy.|今年的丰收让农民们非常高兴。|adj. 充足的，慷慨的，丰裕的|
+|113|mortuary|The body was taken to the mortuary for an autopsy.|尸体被送到太平间进行尸检。|n. 太平间，停尸间；adj. 死的，悲哀的|
+|114|cinder|After the fire, only cinders and ashes were left in the fireplace.|火灾过后，壁炉里只剩下余烬和灰烬。|n. 余烬，矿渣|
+|115|cornet|He plays the cornet in a jazz band on weekends.|他周末在一个爵士乐队里吹短号。|n. 短号；圆锥形蛋卷|
+|116|babble|The baby babbled happily as his mother played with him.|妈妈和宝宝玩的时候，宝宝高兴地咿咿呀呀地说个不停。|v. 喋喋不休；n. 含糊不清的话|
+|117|sully|The scandal sullied his reputation as an honest politician.|这起丑闻玷污了他作为正直政治家的名声。|v. 玷污，污染|
+|118|sultry|We stayed indoors during the sultry afternoon to avoid the heat.|闷热的下午，我们待在室内避暑。|adj. 闷热的|
+|119|squeamish|She's very squeamish and can't stand the sight of blood.|她很容易受惊，见不得血。|adj. 害怕的，易受惊的，想呕吐的|
+|120|chic|She always wears chic clothes that make her stand out in a crowd.|她总穿着时髦的衣服，在人群中很显眼。|adj. 别致的；时髦的；n. 时髦，款式别致|
+|121|sedative|The doctor gave her a sedative to help her sleep after the surgery.|手术后，医生给她开了镇静剂帮助入睡。|adj. (药物)镇静的，起镇定作用的；n. (药物)镇静剂|
+|122|inexplicable|There's an inexplicable delay in the delivery of our order.|我们的订单交货出现了莫名其妙的延误。|adj. 无法解释的，难理解的，莫名其妙的|
+|123|loophole|Some companies exploit tax loopholes to reduce their payments.|一些公司利用税收漏洞来减少税款支付。|n. 漏洞；射弹孔；换气孔|
+|124|unsightly|The old building was in an unsightly condition, with broken windows and peeling paint.|那栋旧楼状况难看，窗户破损，油漆剥落。|adj. 难看的|
+|125|evince|Her works evince a deep understanding of human nature.|她的作品表明她对人性有深刻的理解。|v. 表明，表示，引起|
+|126|horticulture|He has a degree in horticulture and runs a successful flower farm.|他拥有园艺学学位，经营着一个成功的花卉农场。|n. 园艺；园艺学|
+|127|expectant|The expectant parents are busy preparing the nursery for their baby.|这对准父母正忙着为宝宝准备育儿室。|adj. 期待的；怀孕的；预期中的；n. 期待者|
+|128|mainstream|The new policy is aimed at integrating disabled students into mainstream education.|这项新政策旨在让残疾学生融入主流教育。|adj. 主流的；n. 主流，主要倾向|
+|129|communion|The church service includes a communion ceremony for believers.|教堂礼拜包括为信徒举行的圣餐仪式。|n. 共享，交流；圣餐，圣餐仪式|
+|130|antipathy|She has a strong antipathy to spicy food and never eats it.|她对辛辣食物极其反感，从不吃。|n. 反感，厌恶，憎恶|
+|131|dispensable|In this project, this step is dispensable and can be skipped to save time.|在这个项目中，这一步是不必要的，可以跳过以节省时间。|adj. 不必要的，可有可无的|
+|132|expedient|It might be expedient to postpone the meeting until everyone is available.|把会议推迟到所有人都有空的时候可能更合适。|adj. 有利的，方便的；权宜之计的；n. 权宜之计|
+|133|formulation|The formulation of the plan took several weeks of discussion.|这个计划的构思经过了几周的讨论。|n. 表述方式|
+|134|franchise|They bought a fast-food franchise and opened their first restaurant last month.|他们买下了一家快餐特许经营权，上个月开了第一家店。|n. 特许(经营权)；v. 赋予特权|
+|135|judicious|A judicious use of resources is essential for the company's long-term development.|明智地利用资源对公司的长期发展至关重要。|adj. 有判断力的|
+|136|senile|The senile old man often forgot where he put his things.|这位年老体衰的老人经常忘记自己把东西放在哪里。|adj. 年老的，衰老的，因年老发生的(记忆力衰退等)|
+|137|gush|Water gushed out of the broken pipe, flooding the basement.|水从破裂的管道中涌出，淹没了地下室。|v. 涌出；滔滔不绝地说，洋洋洒洒地写；n. 迸发|
+|138|grisly|The newspaper reported a grisly murder that shocked the whole city.|报纸报道了一起骇人听闻的谋杀案，震惊了整个城市。|adj. 令人震惊的|
+|139|dapper|The dapper gentleman in a tailored suit greeted everyone politely.|那位穿着定制西装、衣冠楚楚的绅士礼貌地和每个人打招呼。|adj. 干净利落的，衣冠楚楚的|
+|140|eulogy|He delivered a heartfelt eulogy at his friend's funeral.|他在朋友的葬礼上发表了一篇感人的颂词。|n. 颂词，赞美词|
+|141|fluke|Winning the lottery was a complete fluke; he never expected it.|中彩票完全是侥幸，他根本没料到。|n. 侥幸成功；意外的挫折|
+|142|amenity|The park has many amenities, such as benches, restrooms, and a playground.|这个公园有很多便利设施，比如长椅、洗手间和游乐场。|n. 便利设施，生活福利设施|
+|143|compatriot|She met a fellow compatriot while traveling abroad, which made her feel less homesick.|在国外旅行时，她遇到了一位同胞，这让她没那么想家了。|n. 同胞；adj. 同胞的|
+|144|imprint|The terrible experience left a deep imprint on her memory.|那次可怕的经历在她的记忆中留下了深刻的印记。|n. 印痕；版本说明(读作/ˈɪmˌprɪnt/)；vt. 铭刻|
+|145|heed|You should heed the teacher's advice if you want to improve your grades.|如果你想提高成绩，就应该听从老师的建议。|v. 留心；n. 留心|
+|146|tensile|This material has high tensile strength and is suitable for building bridges.|这种材料抗拉强度高，适合建桥。|adj. 可拉长的，可伸长的|
+|147|scrawl|His scrawl was so messy that I could hardly read his signature.|他的字迹潦草，我几乎看不清他的签名。|n. 潦草的笔迹；v. 乱涂，乱写，潦草地写|
+|148|psychiatrist|She decided to see a psychiatrist to deal with her anxiety issues.|她决定去看精神病医生，以解决自己的焦虑问题。|n. 精神病医生；精神病学家|
+|149|loiter|The security guard told the teenagers not to loiter in front of the store.|保安告诉那些青少年不要在商店门前闲逛。|v. 虚度，闲荡，徘徊，走走停停|
+|150|defunct|The defunct company's assets were sold at auction.|这家已倒闭公司的资产在拍卖会上被出售了。|adj. 已故的，不复存在的|
+
+
+
+
 201到273
 |序号|生词、英文例句的中文意思|词义|
 |---|---|---|
