@@ -1,0 +1,211 @@
+// https://github.com/opentiny/tiny-charts?tab=readme-ov-file
+// https://opentiny.design/tiny-charts/QuickStart
+const option = {
+    theme: 'hdesign-light',
+    // 提示
+    tooltip: {
+        formatter: (params, ticket, callback) => {
+            let htmlString =
+                '<div>' +
+                '<span style="display:inline-block;width:10px;height:10px;border-radius:5px;background-color:' + params.color + ';">' +
+                '</span>' +
+                '<span style="margin-left:2px;">' +
+                '<span style="display:inline-block;min-width:110px;">' + params.name + '</span>' +
+                '<span style="font-weight:bold">' + params.value + '%</span>' +
+                '<span style="color:gray"> left </span>' +
+                '<span style="color:red">' + (100 - params.value) + '%</span>' +
+                '</span>' +
+                '</div>';
+            return htmlString
+        },
+    },
+    // splitColor 分割仪表盘
+    // splitColor[i][0] 的值代表整根轴线的百分比，应在 0 到 1 之间
+    // splitColor[i][1] 是对应的颜色。
+    splitColor: [
+        [0.25, '#0d9458'],
+        [0.5, '#eeba18'],
+        [0.75, '#ec6f1a'],
+        [1, '#f43146'],
+    ],
+    splitLine: {
+        show: true,
+    },
+    // 仪表盘的最小值
+    min: 0,
+    // 仪表盘的最大值
+    max: 100,
+    // 整个仪表盘被分成的份数，splitNumber: 10表示被分成了10份，有11条刻度线
+    splitNumber: 10,
+    itemStyle: {
+        outerGauge: {
+            show: true
+        },
+        // width: 36,
+        // lineStyle: {
+        //     color: '#00f',
+        //     width: 5,
+        //    length: 10
+        // },
+    },
+    splitLine: {
+        show: true
+    },
+    pointer: true,
+    // 仪表盘起始角度。圆心正右手侧为0度，正上方为90度，正左手侧为180度。
+    startAngle: 225,
+    // 仪表盘结束角度。
+    endAngle: -45,
+    data: [
+        {
+            value: 71,
+            name: '温度'
+        }
+    ],
+    // position 用来控制用仪表盘的位置和半径
+
+    // position.center 为中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
+    // 支持设置成百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
+
+    // position.radius 仪表盘半径，可以是相对于容器高宽中较小的一项的一半的百分比，也可以是绝对的数值。
+    // position: {
+    //     center: ['50%', '75%'],
+    //     radius: '100%',
+    // },
+
+    // 此处不能通过设置属性splitLine:{show:false}不展示刻度线及文本，因为多色盘间距是根据刻度生成的
+    // axisLabelStyle: {
+    //     fontSize: 16,
+    //     fontWeight: 700,
+    //     color: 'red',
+    //     // 刻度文本距离刻度线的距离
+    //     distance: 60
+    // }
+
+
+    // gradientColor 表示从仪表盘左到右的渐变色
+    // gradientColor.length == 1 时也可以表示单色
+    // 注意：splitColor 的优先级高于 gradientColor
+    // gradientColor: ['teal', 'red'],
+    // gradientColor: ['rgba(78,127,243)', 'rgba(255,0,0)'],
+    // pointerStyle:调整指针样式
+    // width:指针宽度
+    // length:指针长度
+    // pointerDistance:指针距离中心距离
+    // lineDistance:外层光晕距离进度条距离
+    // pointerStyle: {
+    //     width: 60,
+    //     length: '70%',
+    //     pointerDistance: '-120%',
+    //     lineDistance: '30%',
+    // }
+
+    // 中间的文本
+    // text: {
+    //     offset: [5, 0],
+    //     // 格式化文本函数，参数value为数据数值，返回的字符串格式： {styleName|要显示的文本}
+    //     formatter: function (value) {
+    //         // 前面是label，|后面才是值 
+    //         return '{value|' + value + '}{unit2|%}'
+    //     },
+    //     formatterStyle: {
+    //         value: {
+    //             fontSize: 40,
+    //             color: '#212121',
+    //         },
+    //         unit2: {
+    //             fontSize: 12,
+    //             color: '#ff1919',
+    //         },
+    //     }
+    // },
+
+
+    // text: {
+    //     offset: ['0%', '35%'],
+    //     formatter: function (value) {
+    //         return '{value|' + value + '}{unit|°c}\n{name|温度}\n\n\n{status|过热}'
+    //     },
+    //     formatterStyle: {
+    //         value: {
+    //             fontSize: 50,
+    //             fontWeight: 'bolder',
+    //             color: '#191919',
+    //             textShadowColor: '#ffffff',
+    //             textShadowBlur: 1,
+    //             textShadowOffsetX: 2,
+    //             textShadowOffsetY: 2,
+    //             padding: [0, 0, 30, 0]
+    //         },
+    //         unit: {
+    //             fontSize: 12,
+    //             fontStyle: 'italic',
+    //             color: '#191919',
+    //             textShadowColor: '#ffffff',
+    //             textShadowBlur: 1,
+    //             textShadowOffsetX: 2,
+    //             textShadowOffsetY: 2,
+    //             padding: [22, 0, 30, 6],
+    //         },
+    //         name: {
+    //             fontSize: 14,
+    //             color: 'red',
+    //             padding: [15, 5, 5, 5],
+    //         },
+    //         status: {
+    //             fontSize: 12,
+    //             color: '#5CB300',
+    //             backgroundColor: '#red',
+    //             width: 120,
+    //             height: 32,
+    //             borderRadius: 20,
+    //             align: 'center',
+    //         },
+    //     },
+    // },
+
+
+    // text: {
+    //     offset: ['20%', 0],
+    //     formatter: function (value) {
+    //         return '{value|' + value + '}{unit|%}{icon|↑7%}{name|VS Yesterday}'
+    //     },
+    //     formatterStyle: {
+    //         value: {
+    //             fontSize: 50,
+    //             fontWeight: 'bolder',
+    //             color: '#000000',
+    //         },
+    //         unit: {
+    //             fontSize: 12,
+    //             color: '#999999',
+    //             padding: [20, 0, 0, 6],
+    //         },
+    //         icon: {
+    //             fontSize: 14,
+    //             color: 'green',
+    //             padding: [20, 6, 0, 0],
+    //         },
+    //         name: {
+    //             fontSize: 14,
+    //             color: '#ff0fff',
+    //             padding: [20, 0, 0, 0],
+    //         }
+    //     }
+    // },
+
+    // 阈值线,超出阈值线时，进度条会变成红色
+    // markLine: 88,
+
+    // status: 'warning',
+
+    // mask：外层光晕的蒙层，为啥没效果
+    // show：是否显示蒙层(蒙层区域的颜色为gradientColor循环取色，透明度.1)
+    // hightLight:是否高亮(高亮区域的颜色为gradientColor[0]，透明度1;高亮区域前面的颜色为gradientColor[0]，透明度.5; 高亮区域后面的颜色为gradientColor循环取色，透明度.5)
+    // width:调整外层光晕到进度条之间的蒙层的宽度，不设置时则与lineDistance正相关。页面适配差异时需手动设置
+    // mask: {
+    //     show: true,
+    //     hightLight: true,
+    //     width: 10
+    // }
+};
