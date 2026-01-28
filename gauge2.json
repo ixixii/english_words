@@ -1,0 +1,80 @@
+option = {
+  backgroundColor: '#0f1215',
+  series: [
+    
+
+    // --- 图层1：主仪表盘（深度定制数值样式） ---
+    {
+      type: 'gauge',
+      radius: '80%',
+      startAngle: 225, endAngle: -45,
+      min: 0, max: 100,
+      axisLine: {
+        lineStyle: {
+          width: 12,
+          color: [[0.3, '#41b1ff'], [0.7, '#1890ff'], [1, '#0050b3']]
+        }
+      },
+      pointer: {
+        icon: 'path://M0 0 L100 0 L50 100 Z',
+        length: '15%', width: 18, offsetCenter: [0, '-120%'],
+        itemStyle: { color: '#ffcc00', shadowBlur: 8, shadowColor: 'rgba(255,204,0,0.6)' }
+      },
+      anchor: { show: false },
+      axisTick: { distance: 2, length: 5, lineStyle: { color: '#fff' } },
+      splitLine: { distance: 2, length: 10, lineStyle: { color: '#fff' } },
+      axisLabel: { 
+        distance: 18, color: '#fff', fontSize: 12,
+        formatter: function(v) { return v === 30 ? '' : v; } 
+      },
+      
+      // --- 核心：定制数值 70 与 “温度” 的样式 ---
+      detail: {
+        valueAnimation: true,
+        offsetCenter: [0, '25%'], 
+        // 使用 {valueStyle|...} 来包裹数值
+        formatter: '{valueStyle|{value}}\n{labelStyle|温度}', 
+        rich: {
+          // 1. 定制当前数值 (70) 的样式
+          valueStyle: {
+            fontSize: 50,       // 数值大小
+            color: '#00ffcc',   // 数值颜色（例如青蓝色）
+            fontWeight: '800',  // 加粗级别
+            fontFamily: 'Arial'
+          },
+          // 2. 定制下方文字 (温度) 的样式
+          labelStyle: {
+            fontSize: 16,       // 文字大小
+            color: '#aaaaaa',   // 文字颜色
+            padding: [5, 0, 0, 0] // 与上方数字的间距
+          }
+        }
+      },
+      data: [{ value: 70 }]
+    },
+    
+    
+    // --- 图层2：警戒线层（保持不变） ---
+    {
+      type: 'gauge',
+      radius: '87%', // 与axisLabel的distance一起调整黄色的分割线位置
+      startAngle: 225, endAngle: -45,
+      min: 0, max: 100,
+      splitNumber:100, // 关键，显示数字
+      axisLabel: {
+        show: true,
+        distance: -50,
+        formatter: function (value) { if (value === 33) return '{a|33}'; return ''; },
+        rich: { a: { color: '#ff4d4f', fontSize: 16, fontWeight: 'bold' } }
+      },
+      axisLine: {
+        lineStyle: {
+          width: '19', 
+          color: [[0.298, 'transparent'], [0.302, 'yellow'], [1, 'transparent']]
+        }
+      },
+      
+      splitLine: { show: false }, axisTick: { show: false }, pointer: { show: false }, detail: { show: false }
+    },
+  ]
+};
