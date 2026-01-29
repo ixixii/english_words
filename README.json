@@ -1,3 +1,104 @@
+这份代码可以直接复制到 ECharts Online Editor 中运行。
+它通过监听渲染事件，自动计算 grid 的边界和数值 33 的像素位置，并利用 backgroundColor 完美解决重叠问题。
+// 1. 基础配置
+const specValue = 33;
+
+option = {
+  title: { text: '横向柱状图强显特定刻度 33' },
+  tooltip: { trigger: 'axis' },
+  grid: {
+    left: '10%',
+    right: '10%',
+    bottom: 60, // 底部留出空间给标签
+    containLabel: true
+  },
+  xAxis: {
+    type: 'value',
+    splitLine: { lineStyle: { type: 'dashed' } }
+  },
+  yAxis: {
+    type: 'category',
+    data: ['项目 A', '项目 B', '项目 C', '项目 D']
+  },
+  series: [
+    {
+      name: '数值',
+      type: 'bar',
+      data: [15, 42, 28, 35],
+      itemStyle: { color: '#5470c6' }
+    }
+  ],
+  // 初始定义一个空的 graphic 组
+  graphic: []
+};
+
+// 2. 核心逻辑函数：将逻辑封装，方便初始化和重绘时调用
+function renderCustomLabel() {
+  if (!myChart) return;
+
+  // 获取 33 数值对应的像素 X 坐标
+  const xPos = myChart.convertToPixel({ xAxisIndex: 0 }, specValue);
+  
+  // 获取坐标系模型，精准定位 X 轴的物理高度
+  const gridModel = myChart.getModel().getComponent('grid', 0).coordinateSystem;
+  const gridRect = gridModel.getRect();
+  const yPos = gridRect.y + gridRect.height; // X 轴线的物理 Y 坐标
+
+  myChart.setOption({
+    graphic: [{
+      id: 'special-label-group',
+      type: 'group',
+      left: xPos,
+      top: yPos + 5, // 稍微向下偏离轴线一点，避免贴死
+      z: 100, // 确保在最上层
+      children: [
+        {
+          type: 'text',
+          style: {
+            text: specValue.toString(),
+            fill: '#ff4d4f', // 醒目的红色
+            fontWeight: 'bold',
+            fontSize: 14,
+            textAlign: 'center',
+            textVerticalAlign: 'top',
+            // 核心细节：背景色设为白色，padding 撑开，盖住可能重叠的默认刻度
+            backgroundColor: '#fff',
+            padding: [2, 4],
+            borderRadius: 2
+          }
+        },
+        {
+          type: 'line', // 画一个小刻度线指回轴线
+          shape: { x1: 0, y1: -5, x2: 0, y2: 0 },
+          style: { stroke: '#ff4d4f', lineWidth: 2 }
+        }
+      ]
+    }]
+  });
+}
+
+// 3. 执行绘制
+myChart.setOption(option);
+
+// 必须在 setOption 后延迟或立即执行一次转换计算
+setTimeout(renderCustomLabel, 0);
+
+// 4. 处理响应式：窗口缩放时重新计算位置
+window.addEventListener('resize', () => {
+  myChart.resize();
+  renderCustomLabel();
+});
+
+方案细节说明：
+ * z: 100：这保证了 33 这个标签像一张“贴纸”一样贴在所有图层最上面。
+ * backgroundColor: '#fff'：这是解决你担心的“数字重合”的关键。它会形成一个不透明的矩形区域，把主轴原有的数字（比如 30 或 35）遮挡掉。
+ * textAlign: 'center'：设置后，你只需要给 left: xPos，文字就会以 33 为中心对称分布，无需手动减去文字宽度。
+ * yPos + 5：由于你是横向柱状图，X 轴在下方。这个偏移量让数字正好位于轴线刻度文字的同一水平线上。
+你可以试着修改 specValue 的值为 30（此时它会完美覆盖原有的 30）或 31（此时它会遮住原有 30 的一部分），视觉效果依然很稳。
+如果你需要把这个数值改为动态获取（例如根据后端返回的最值来定），需要我帮你演示如何动态更新这个 specValue 吗？
+
+……………
+
 这是一个非常经典的问题，通常是因为 ECharts 的类目轴（yAxis）在空间不足时自动开启了“防重叠”隐藏机制，以及**固定像素宽度（barWidth）**在窄小容器中导致的视觉错觉。
 让我们逐一解决这两个痛点：
 1. 为什么李四消失了？（坐标轴标签隐藏）
