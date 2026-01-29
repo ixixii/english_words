@@ -1,3 +1,173 @@
+为了实现纯 CSS 变量适配，并兼容浏览器缩小与 10240px 大屏，我们需要将您这段包含多图层、自定义三角形指针、警戒线的复杂配置进行“比例化”改造。
+以下是适配后的 Vue 3 完整代码。关键点在于：将所有涉及像素（px）的数值，在 JS 中乘以 s（缩放比例），在 CSS 中乘以 var(--s)。
+适配版 Vue 3 组件
+<template>
+  <div class="gauge-adaptor" :style="{ '--s': scale }">
+    <div ref="chartRef" class="chart-main"></div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
+import * as echarts from 'echarts';
+
+// --- 1. 基础响应式逻辑 ---
+const DESIGN_WIDTH = 1920; // 假设开发基准是 1920
+const windowWidth = ref(window.innerWidth);
+const scale = computed(() => windowWidth.value / DESIGN_WIDTH);
+
+// 防抖处理 resize
+let timer = null;
+const handleResize = () => {
+  if (timer) clearTimeout(timer);
+  timer = setTimeout(() => {
+    windowWidth.value = window.innerWidth;
+    if (myChart) {
+      myChart.resize();
+      renderChart(); // 窗口变化时重新计算内部 px 比例
+    }
+  }, 150);
+};
+
+// --- 2. ECharts 初始化与配置 ---
+const chartRef = ref(null);
+let myChart = null;
+
+const renderChart = () => {
+  if (!myChart) return;
+
+  const s = scale.value; // 当前缩放比例
+
+  const option = {
+    backgroundColor: '#0f1215',
+    series: [
+      // --- 图层一：警戒线层 ---
+      {
+        type: 'gauge',
+        radius: '82%', 
+        startAngle: 225,
+        endAngle: -45,
+        min: 0,
+        max: 100,
+        axisLine: {
+          lineStyle: {
+            width: 25 * s, // 适配线段纵向长度
+            color: [
+              [0.295, 'transparent'],
+              [0.305, '#ff4d4f'],    
+              [1, 'transparent']
+            ]
+          }
+        },
+        splitLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: { show: false },
+        pointer: { show: false },
+        detail: { show: false }
+      },
+
+      // --- 图层二：主仪表盘与悬浮指针 ---
+      {
+        type: 'gauge',
+        radius: '80%',
+        startAngle: 225,
+        endAngle: -45,
+        min: 0,
+        max: 100,
+        axisLine: {
+          lineStyle: {
+            width: 12 * s, // 适配主圆盘厚度
+            color: [[0.3, '#41b1ff'], [0.7, '#1890ff'], [1, '#0050b3']]
+          }
+        },
+        pointer: {
+          icon: 'path://M0 0 L100 0 L50 100 Z',
+          length: '15%',
+          width: 18 * s, // 适配三角形宽度
+          offsetCenter: [0, '-120%'], 
+          itemStyle: {
+            color: '#ffcc00',
+            shadowBlur: 8 * s, // 适配阴影模糊度
+            shadowColor: 'rgba(255,204,0,0.6)'
+          }
+        },
+        anchor: { show: false },
+        title: { show: false },
+        // 刻度样式适配
+        axisTick: { 
+          distance: 2 * s, 
+          length: 5 * s, 
+          lineStyle: { color: '#fff', width: 1 * s } 
+        },
+        splitLine: { 
+          distance: 2 * s, 
+          length: 10 * s, 
+          lineStyle: { color: '#fff', width: 2 * s } 
+        },
+        axisLabel: { 
+          distance: 18 * s, 
+          color: '#fff', 
+          fontSize: 12 * s // 适配刻度字体
+        },
+        detail: {
+          valueAnimation: true,
+          formatter: '{value}',
+          offsetCenter: [0, '40%'],
+          color: '#fff',
+          fontSize: 30 * s // 适配中心数值大小
+        },
+        data: [{ value: 70 }]
+      }
+    ]
+  };
+
+  myChart.setOption(option);
+};
+
+onMounted(() => {
+  // 万级大屏务必使用 SVG 模式
+  myChart = echarts.init(chartRef.value, null, { renderer: 'svg' });
+  renderChart();
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+  myChart && myChart.dispose();
+});
+</script>
+
+<style scoped>
+.gauge-adaptor {
+  --s: 1; /* 默认倍率为 1 */
+  /* 使用变量适配容器宽高 */
+  width: calc(800px * var(--s));
+  height: calc(800px * var(--s));
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0f1215;
+}
+
+.chart-main {
+  width: 100%;
+  height: 100%;
+}
+</style>
+
+适配细节解析：
+ * 三角形指针的 width 与 shadowBlur：
+   在 10240px 大屏上，如果不乘以 s，原本 18px 的三角形会缩成一个小点，阴影也会消失。乘以比例后，三角形会等比放大到约 96px 宽，保持视觉冲击力。
+ * 分割线（splitLine）与刻度（axisTick）：
+   这两项的 length 和 distance 必须适配。否则在大屏上，刻度线会显得离圆环非常近，甚至重叠。
+ * 多图层的对齐：
+   由于图层一（警戒线）和图层二（主盘）都使用了相同的 startAngle、endAngle 和 min/max，只要它们的 s（比例因子）是一致的，无论如何缩放，那根红色的“砍痕”永远会精准对齐 30 的刻度位置。
+ * SVG 渲染优势：
+   您的指针使用了自定义 path（三角形）。在浏览器缩小或极端放大时，Canvas 渲染可能会出现边缘羽化（变模糊），而 SVG 渲染器 能保证三角形的尖角在任何分辨率下都锐利无比。
+如何验证：
+ * 大屏验证：将 windowWidth 模拟设为 10240，你会发现指针、警戒线、刻度文字全部等比例变巨，效果震撼。
+ * 缩小验证：将浏览器窗口拉窄，calc 和 JS 会联动将所有细小刻度同步缩小。如果文字太小看不清，可以在 axisLabel 的 fontSize 处加上 Math.max(8 * s, 10) 逻辑来保底。
 # english_words 
 some english words
 1到80
