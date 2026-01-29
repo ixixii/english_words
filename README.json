@@ -1,3 +1,130 @@
+这是一个完整的、可直接运行的 HTML 示例。我将逻辑整合在了 updateTripleStackedLines 函数中。这个页面包含了三层堆叠的数据，并利用 graphic 组件在层与层之间精准绘制了 1px 的灰色分界线。
+你可以将以下代码保存为 .html 文件并在浏览器中打开：
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts 三层堆叠柱状图自定义分界线</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #main { width: 800px; height: 500px; margin: 50px auto; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+
+    <script type="text/javascript">
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+
+        // 1. 定义原始数据
+        const rawData = {
+            categories: ['周一', '周二', '周三', '周四', '周五'],
+            layerA: [120, 200, 150, 80, 70],
+            layerB: [100, 120, 110, 150, 130],
+            layerC: [150, 80, 120, 90, 100]
+        };
+
+        const option = {
+            title: { text: '三层堆叠图 - Graphic分界线方案' },
+            tooltip: { trigger: 'axis' },
+            legend: { data: ['底层', '中层', '顶层'], bottom: 0 },
+            grid: { left: '3%', right: '4%', bottom: '10%', containLabel: true },
+            xAxis: { type: 'category', data: rawData.categories },
+            yAxis: { type: 'value' },
+            series: [
+                {
+                    name: '底层',
+                    type: 'bar',
+                    stack: 'total',
+                    barWidth: '50%',
+                    itemStyle: { color: '#5470c6' },
+                    data: rawData.layerA
+                },
+                {
+                    name: '中层',
+                    type: 'bar',
+                    stack: 'total',
+                    itemStyle: { color: '#91cc75' },
+                    data: rawData.layerB
+                },
+                {
+                    name: '顶层',
+                    type: 'bar',
+                    stack: 'total',
+                    itemStyle: { color: '#fac858' },
+                    data: rawData.layerC
+                }
+            ]
+        };
+
+        // 2. 绘制分界线的核心函数
+        function updateDividerLines() {
+            const series = myChart.getOption().series;
+            const graphics = [];
+            const dataLen = series[0].data.length;
+
+            for (let i = 0; i < dataLen; i++) {
+                // 计算两条线的高度位置：
+                // 第一条线在底层上方：A
+                const valLine1 = series[0].data[i];
+                // 第二条线在中层上方：A + B
+                const valLine2 = series[0].data[i] + series[1].data[i];
+
+                [valLine1, valLine2].forEach((stackValue) => {
+                    // 获取像素坐标
+                    const point = myChart.convertToPixel({ seriesIndex: 0 }, [i, stackValue]);
+                    
+                    // 获取柱子实际渲染宽度
+                    const layout = myChart.getModel().getSeriesByIndex(0).getData().getItemLayout(i);
+                    const barWidth = layout.width;
+
+                    graphics.push({
+                        type: 'line',
+                        shape: {
+                            x1: point[0] - barWidth / 2,
+                            y1: point[1],
+                            x2: point[0] + barWidth / 2,
+                            y2: point[1]
+                        },
+                        style: {
+                            stroke: '#666', // 灰色线
+                            lineWidth: 1,
+                            opacity: 0.8
+                        },
+                        z: 10 // 确保显示在柱子之上
+                    });
+                });
+            }
+
+            // 更新 graphic 配置
+            myChart.setOption({ graphic: graphics });
+        }
+
+        // 3. 执行渲染
+        myChart.setOption(option);
+        
+        // 必须在渲染后或下个事件循环中执行坐标转换
+        setTimeout(updateDividerLines, 0);
+
+        // 4. 监听变化
+        window.addEventListener('resize', () => {
+            myChart.resize();
+            updateDividerLines();
+        });
+
+    </script>
+</body>
+</html>
+
+亮点说明：
+ * 精准计算：使用了 convertToPixel 配合 getItemLayout，保证线条宽度正好等于柱子宽度，不会出头。
+ * 不占空间：这种线是“浮”在图表上的，不会影响 Y 轴的刻度和堆叠的逻辑高度。
+ * 自适应：在窗口大小改变导致柱子宽度变动时，线条会自动重绘对齐。
+如果你之后需要把线条改成虚线，只需要在 style 里增加 lineDash: [4, 2] 即可。
+还需要我演示如何给这些分界线添加淡入动画效果吗？
+
+……………
 方案三（使用 graphic 组件）是视觉效果最完美的选择。它的核心逻辑是：不再通过“假数据”去堆叠，而是在图表渲染完成后，直接在两层柱子的交界处“画”一条灰色的直线。
 这种方法的优点是分界线不占据 Y 轴数值，不会导致柱状图因多出几个像素而产生微小的视觉形变。
 实现逻辑
