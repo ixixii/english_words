@@ -1,3 +1,80 @@
+没问题！这里为你准备了一个开箱即用的完整示例。
+为了实现最纯粹的“层间分界线”效果（即：只要横向线，不要纵向线），我采用了方案二的变体：在数据项中巧妙利用 itemStyle。
+完整代码示例
+你可以直接将这段配置粘贴到 ECharts Online Editor 中查看效果。
+// 分界线粗细（像素）
+const gapWidth = 2; 
+
+option = {
+    backgroundColor: '#fff',
+    legend: {},
+    tooltip: {
+        trigger: 'axis',
+        // 过滤掉作为分界线的辅助系列，不让它们显示在提示框里
+        formatter: (params) => {
+            let res = params[0].name + '<br/>';
+            params.forEach(item => {
+                if (item.seriesName.indexOf('divider') === -1) {
+                    res += item.marker + item.seriesName + ': ' + item.value + '<br/>';
+                }
+            });
+            return res;
+        }
+    },
+    xAxis: { data: ['周一', '周二', '周三', '周四', '周五'] },
+    yAxis: {},
+    series: [
+        {
+            name: '底层数据',
+            type: 'bar',
+            stack: 'total',
+            barWidth: '50%',
+            itemStyle: { color: '#5470c6' },
+            data: [120, 132, 101, 134, 90]
+        },
+        {
+            name: 'divider-1', // 灰色分界线层
+            type: 'bar',
+            stack: 'total',
+            silent: true,      // 不响应鼠标事件
+            itemStyle: { color: '#ccc' }, // 线的颜色
+            data: [gapWidth, gapWidth, gapWidth, gapWidth, gapWidth] 
+        },
+        {
+            name: '中层数据',
+            type: 'bar',
+            stack: 'total',
+            itemStyle: { color: '#91cc75' },
+            data: [220, 182, 191, 234, 290]
+        },
+        {
+            name: 'divider-2', // 第二道灰色分界线
+            type: 'bar',
+            stack: 'total',
+            silent: true,
+            itemStyle: { color: '#ccc' },
+            data: [gapWidth, gapWidth, gapWidth, gapWidth, gapWidth]
+        },
+        {
+            name: '顶层数据',
+            type: 'bar',
+            stack: 'total',
+            itemStyle: { color: '#fac858' },
+            data: [150, 232, 201, 154, 190]
+        }
+    ]
+};
+
+关键细节说明
+ * stack: 'total': 所有系列（包括分界线）必须拥有相同的 stack 名称，才能垂直堆叠。
+ * silent: true: 这个设置非常关键。它让分界线“隐形”，鼠标悬停时不会触发选中状态，用户感知不到它的存在。
+ * gapWidth: 这决定了线的粗细。在 value 轴（y轴）上，它代表数值。如果你的 y 轴量级很大（比如百万级），你需要把这个值调大，或者通过 y 轴的 min/max 比例来动态计算。
+ * Tooltip 过滤: 示例代码中通过 formatter 过滤掉了名字包含 divider 的系列，确保弹出框里只显示真实的业务数据。
+进阶小技巧
+如果你的 Y 轴是百分比或者是固定高度，这个方案的效果是最好的。如果 Y 轴跨度极大（有的柱子 10，有的 100 万），固定数值的分界线可能会显得忽粗忽细。
+如果你发现线太粗或太细，需要我帮你写一个自动计算 gapWidth 的逻辑吗？
+
+…………………
 要让 33 的字体与 X 轴完全一致，最科学的方法是直接从 ECharts 的配置项（Option）或实例渲染后的私有属性中读取。
 1. 哪里可以看 X 轴的字体？
 在 ECharts 中，X 轴的字体样式由 xAxis.axisLabel 控制。
