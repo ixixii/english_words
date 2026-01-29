@@ -1,3 +1,73 @@
+方案三（使用 graphic 组件）是视觉效果最完美的选择。它的核心逻辑是：不再通过“假数据”去堆叠，而是在图表渲染完成后，直接在两层柱子的交界处“画”一条灰色的直线。
+这种方法的优点是分界线不占据 Y 轴数值，不会导致柱状图因多出几个像素而产生微小的视觉形变。
+实现逻辑
+ * 监听 ECharts 的 render 事件（或在 setOption 后执行）。
+ * 利用 chart.convertToPixel 接口，将数据坐标转换为像素坐标。
+ * 使用 graphic.elements 绘制 line（直线）。
+核心代码实现
+// 假设 series[0] 是底层，series[1] 是中层
+function updateDividerLines(myChart) {
+    const series0Data = myChart.getOption().series[0].data;
+    const series1Data = myChart.getOption().series[1].data;
+    const graphics = [];
+
+    series0Data.forEach((val, index) => {
+        // 1. 计算第一层柱子顶部的像素坐标
+        // 'grid' 表示在直角坐标系内转换，[index, val] 对应 [x轴索引, y轴数值]
+        const point = myChart.convertToPixel({ seriesIndex: 0 }, [index, val]);
+        
+        // 2. 获取柱子的宽度（用于确定横线的左右端点）
+        // 这里通过已经渲染的实例获取 layout 信息
+        const barLayout = myChart.getVisual({seriesIndex: 0}, 'rect'); 
+        const barWidth = myChart.getModel().getSeriesByIndex(0).getData().getItemLayout(index).width;
+
+        // 3. 定义一条横线
+        graphics.push({
+            type: 'line',
+            shape: {
+                x1: point[0] - barWidth / 2, // 起点：中心点减去一半宽度
+                y1: point[1],               // 终点 Y 坐标（交界处）
+                x2: point[0] + barWidth / 2, // 终点：中心点加上一半宽度
+                y2: point[1]
+            },
+            style: {
+                stroke: '#ccc', // 线条颜色
+                lineWidth: 1    // 线条宽度
+            },
+            z: 10 // 确保画在柱子最上面
+        });
+    });
+
+    // 4. 将计算好的图形更新到图表中
+    myChart.setOption({
+        graphic: graphics
+    });
+}
+
+// --- 使用方法 ---
+myChart.setOption(option);
+// 初始渲染
+updateDividerLines(myChart);
+// 窗口缩放时重新定位
+window.addEventListener('resize', () => {
+    myChart.resize();
+    updateDividerLines(myChart);
+});
+
+方案对比：为什么选 Graphic？
+| 特性 | 方案二（插入假系列） | 方案三（Graphic 绘图） |
+|---|---|---|
+| Y 轴影响 | 会微弱增加柱子高度 | 完全无影响 |
+| Tooltip | 需要手动过滤辅助层 | 天然纯净 |
+| 代码难度 | 简单（纯配置） | 较高（需计算坐标） |
+| 性能 | 极高 | 中等（频繁 resize 时有计算开销） |
+避坑指南
+ * 异步渲染问题：如果你的数据是异步加载的，务必在 setOption 的回调或者确信数据已渲染后再调用 updateDividerLines，否则 convertToPixel 可能会返回 NaN。
+ * 多层堆叠：如果你有 3 层柱子，你需要计算 series[0].data[i] + series[1].data[i] 的总和作为第二条线的 Y 轴位置。
+ * 柱子圆角：如果你给柱子设置了 itemStyle.borderRadius，graphic 的直线会显得比较突兀，这种情况下反而推荐方案一。
+你想让我针对“多层堆叠（超过2层）”的情况，优化一下这个自动计算 Y 轴坐标的循环逻辑吗？
+
+……………
 没问题！这里为你准备了一个开箱即用的完整示例。
 为了实现最纯粹的“层间分界线”效果（即：只要横向线，不要纵向线），我采用了方案二的变体：在数据项中巧妙利用 itemStyle。
 完整代码示例
