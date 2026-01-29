@@ -1,3 +1,66 @@
+要让 33 的字体与 X 轴完全一致，最科学的方法是直接从 ECharts 的配置项（Option）或实例渲染后的私有属性中读取。
+1. 哪里可以看 X 轴的字体？
+在 ECharts 中，X 轴的字体样式由 xAxis.axisLabel 控制。
+ * 配置项位置：option.xAxis.axisLabel.fontFamily（默认为空，会继承全局设置）。
+ * 默认值：如果你的代码里没写，ECharts 默认的字体栈通常是：
+   > 'Microsoft YaHei', 'sans-serif', 'Arial', ...（取决于操作系统）。
+   > 
+ * 默认颜色：通常是 #6e7079 (新版 ECharts 5) 或 #333 (旧版)。
+ * 默认字号：12px。
+2. 完美对齐字体的“硬核”写法
+为了保证 100% 一致，我们不硬编码字体，而是通过代码获取主轴的样式。
+function renderCustomLabel() {
+    const xPos = myChart.convertToPixel({ xAxisIndex: 0 }, specValue);
+    const gridModel = myChart.getModel().getComponent('grid', 0).coordinateSystem;
+    const gridRect = gridModel.getRect();
+    const yPos = gridRect.y + gridRect.height;
+
+    // --- 核心：自动获取主轴的 label 样式 ---
+    const xAxisModel = myChart.getModel().getComponent('xAxis', 0);
+    const labelModel = xAxisModel.getModel('axisLabel');
+    
+    // 获取主轴配置的文字颜色、字体、字号、边距
+    const axisColor = labelModel.get('color') || '#6E7079'; 
+    const axisFont = labelModel.getFont(); // 获取完整的 font 字符串
+    const axisMargin = labelModel.get('margin') || 8; 
+
+    myChart.setOption({
+        graphic: [{
+            id: 'special-label-group',
+            type: 'text',
+            left: xPos,
+            top: yPos + axisMargin, 
+            z: 100,
+            style: {
+                text: specValue.toString(),
+                fill: axisColor,     // 颜色同步
+                font: axisFont,      // 字体同步 (包含 size, family, weight)
+                textAlign: 'center',
+                textVerticalAlign: 'top',
+                backgroundColor: '#fff',
+                padding: [0, 2] 
+            }
+        }]
+    });
+}
+
+3. 关键属性对照表
+如果你想手动微调，以下是 graphic.style 与 axisLabel 的对应关系：
+| 属性说明 | 坐标轴配置 (axisLabel) | Graphic 样式配置 (style) |
+|---|---|---|
+| 文字颜色 | color | fill |
+| 字体大小 | fontSize | fontSize (或包含在 font 中) |
+| 字体家族 | fontFamily | fontFamily (或包含在 font 中) |
+| 文字加粗 | fontWeight | fontWeight |
+| 距离轴线距离 | margin | 对应 top 的偏移量 |
+4. 为什么 labelModel.getFont() 更好用？
+这个方法会返回一个类似 "normal 12px Microsoft YaHei" 的标准 CSS 字体字符串。直接把它赋值给 graphic 的 font 属性，能确保粗细、大小、字体库完全统一。
+最后的细节优化：
+由于主轴数字（如 30, 40）和你的 33 可能存在微小的垂直偏差，这是因为 graphic 的 textVerticalAlign: 'top' 是从顶部对齐。如果发现 33 比别的数字稍微高一点或低一点，可以微调 top: yPos + axisMargin + 1（加减 1 像素）来达到像素级的视觉平衡。
+你想让我帮你把这个“自动同步样式”的逻辑集成到之前的完整 Demo 中吗？
+
+…………
+
 这份代码可以直接复制到 ECharts Online Editor 中运行。
 它通过监听渲染事件，自动计算 grid 的边界和数值 33 的像素位置，并利用 backgroundColor 完美解决重叠问题。
 // 1. 基础配置
