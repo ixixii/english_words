@@ -1,4 +1,83 @@
 
+
+图例半透明
+要实现“点击后变为半透明红色”，核心难点在于 ECharts 的 inactiveColor 是全局配置，无法直接为每个图例项单独设置不同的失活颜色。
+因此，我们需要通过 legend.textStyle.rich（富文本样式） 结合 legendselectchanged 事件 来动态修改样式。
+以下是完整的解决方案：
+核心实现逻辑
+ * 禁用默认变灰：设置 inactiveColor: 'transparent'。
+ * 定义富文本样式：在 textStyle.rich 中预设每个系列的“激活（全色）”和“失活（半透明）”样式。
+ * 动态切换：通过图例点击事件，利用 formatter 实时判断该系列是否被选中，并应用对应的富文本样式。
+完整代码
+// 定义基础颜色变量
+const colors = {
+    '红色': { base: 'rgb(255, 0, 0)', alpha: 'rgba(255, 0, 0, 0.5)' },
+    '绿色': { base: 'rgb(0, 128, 0)', alpha: 'rgba(0, 128, 0, 0.5)' },
+    '蓝色': { base: 'rgb(0, 0, 255)', alpha: 'rgba(0, 0, 255, 0.5)' }
+};
+
+option = {
+    color: [colors['红色'].base, colors['绿色'].base, colors['蓝色'].base],
+    legend: {
+        right: 10,
+        // 1. 关键：禁止默认变灰颜色
+        inactiveColor: 'transparent', 
+        // 2. 使用富文本配置不同状态的样式
+        textStyle: {
+            rich: {
+                // 红色系列的状态
+                redActive: { color: colors['红色'].base },
+                redInactive: { color: colors['红色'].alpha },
+                // 绿色系列的状态
+                greenActive: { color: colors['绿色'].base },
+                greenInactive: { color: colors['绿色'].alpha },
+                // 蓝色系列的状态
+                blueActive: { color: colors['蓝色'].base },
+                blueInactive: { color: colors['蓝色'].alpha }
+            }
+        },
+        // 3. 动态判断返回哪种富文本样式
+        formatter: function (name) {
+            // 注意：初始加载时默认都是选中状态
+            const isSelected = myChart.getOption().legend[0].selected[name] !== false;
+            
+            if (name === '红色') return isSelected ? '{redActive|红色}' : '{redInactive|红色}';
+            if (name === '绿色') return isSelected ? '{greenActive|绿色}' : '{greenInactive|绿色}';
+            if (name === '蓝色') return isSelected ? '{blueActive|蓝色}' : '{blueInactive|蓝色}';
+            return name;
+        }
+    },
+    xAxis: { type: 'category', data: ['A', 'B', 'C'] },
+    yAxis: { type: 'value' },
+    series: [
+        { name: '红色', type: 'bar', stack: 'total', data: [120, 132, 101] },
+        { name: '绿色', type: 'bar', stack: 'total', data: [220, 182, 191] },
+        { name: '蓝色', type: 'bar', stack: 'total', data: [150, 232, 201] }
+    ]
+};
+
+// 4. 监听图例点击，强制触发重绘以执行 formatter
+myChart.on('legendselectchanged', function (params) {
+    // 重新 setOption 才会让 legend 的 formatter 重新运行
+    myChart.setOption(option);
+});
+
+为什么这个方案能生效？
+ * 针对图标：由于我们把全局的 inactiveColor 设为了透明，点击后的图标会自动露出它底层的颜色（即系列原色）。因为图表元素在失活时会有默认的淡化效果，配合透明配置，图标视觉上会呈现出类似半透明的效果。
+ * 针对文字：这是设计师最在意的。通过 rich 属性，我们绕开了 ECharts 默认的单色逻辑，强制让“红色”在失活时使用 rgba(255, 0, 0, 0.5)，实现了真正的“半透明红”而非“灰色”。
+进阶提示：如何让图标也变半透明？
+如果发现图标在失活后依然不够“透明”，可以在 legend 中配置 itemStyle：
+legend: {
+    // ...
+    itemStyle: {
+        // 这样可以确保图标在失活（被点击）后，维持一定的透明度感知
+        opacity: 1 
+    }
+}
+
+但通常情况下，配合 inactiveColor: 'transparent'，图标的视觉表现已经非常接近“原色半透明”了。
+
+………
 点击图例，更新总数
 这是一个非常关键的问题。如果你按照之前硬编码（预先计算好总数）的方式，点击图例隐藏红色后，总数是不会自动更新的，因为它只是一串写死的数字。
 为了实现“总数随图例显隐动态变化”，你需要利用 ECharts 的 label 格式化函数（formatter） 实时计算当前处于“显示状态”的系列总和。
