@@ -1,5 +1,78 @@
+总数经典做法
 
+在 ECharts 堆叠柱状图中，显示“总计数”最经典且专业的方法是使用一个辅助系列（Invisible Series）。
+这个辅助系列的逻辑是：它的数值和总数一致，但本身是透明的（或者高度为0），专门用来挂载 Label。
+以下是具体的配置步骤和代码实现：
+核心配置思路
+ * stack 属性：必须和红、绿、蓝三个系列一致，这样它才能堆叠在最上方。
+ * 数据计算：该系列的数据应为红、绿、蓝对应项的总和。
+ * 样式隐藏：
+   * 将 itemStyle.color 设为 'none' 或 'transparent'。
+   * 或者更巧妙地，将数据设为 0（但这样 Label 位置需要特殊偏移），推荐做法是使用一个数值为 0 的系列堆叠在最顶端。
+完整代码示例
+// 假设你的数据
+const dataRed = [120, 132, 101];
+const dataGreen = [220, 182, 191];
+const dataBlue = [150, 232, 201];
 
+// 计算总数
+const totalData = dataRed.map((v, i) => v + dataGreen[i] + dataBlue[i]);
+
+option = {
+    xAxis: { type: 'category', data: ['项目A', '项目B', '项目C'] },
+    yAxis: { type: 'value' },
+    series: [
+        { name: '红色', type: 'bar', stack: 'total', data: dataRed, color: 'red' },
+        { name: '绿色', type: 'bar', stack: 'total', data: dataGreen, color: 'green' },
+        { name: '蓝色', type: 'bar', stack: 'total', data: dataBlue, color: 'blue' },
+        
+        // --- 辅助总数柱状图配置开始 ---
+        {
+            name: '总数',
+            type: 'bar',
+            stack: 'total', // 必须保持一致，堆叠在红绿蓝之上
+            itemStyle: {
+                color: 'transparent' // 隐藏柱子本身
+            },
+            label: {
+                show: true,
+                position: 'top', // 显示在堆叠柱子的最上方
+                distance: 10,    // 距离柱子顶部的距离
+                color: '#333',   // 总数文字颜色
+                fontWeight: 'bold',
+                formatter: (params) => {
+                    // 关键：params.dataIndex 拿到当前 X 轴索引，返回预计算好的总数
+                    return totalData[params.dataIndex];
+                }
+            },
+            /* 技巧：为了不让“总数”出现在 Tooltip 和图例点击中，
+               可以进行以下设置：
+            */
+            tooltip: { show: false }, // 鼠标悬停时不显示总数这一行
+            data: new Array(dataRed.length).fill(0), // 将辅助柱子高度设为0，不占用Y轴高度
+            // 注意：如果 data 设为 0，Label 的 position: 'top' 
+            // 就会正好处于堆叠柱子的最高点。
+        }
+        // --- 辅助总数柱状图配置结束 ---
+    ]
+};
+
+为什么这样写最好？
+ * 层级自动处理：由于它在 series 数组的最后，且 stack 相同，它天然处于堆叠的最顶层，不会被红绿蓝遮挡。
+ * 位置精准：data 设为 0 的柱子堆叠在最上面，其 position: 'top' 的 Label 刚好就是整个堆叠柱子的“天花板”位置。
+ * 图例联动：
+   * 设计师要求：通常总数不应该有图例。
+   * 解决：在 legend.data 中不写 '总数' 即可，或者在系列里加上 silent: true（禁用点击事件）。
+进阶优化：Label 不被遮挡
+如果你发现总数 Label 还是被某些 graphic 划线遮挡，可以在辅助系列中加入：
+label: {
+    z: 100, // 赋予极高的层级
+    // ... 其他配置
+}
+
+这种“高度为0的透明堆叠层”是 ECharts 社区处理总数显示的标准方案，既解决了定位问题，又不会破坏原有的坐标轴比例。
+
+…………
 gpt
 <!DOCTYPE html>
 <html lang="zh">
