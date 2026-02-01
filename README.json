@@ -1,3 +1,74 @@
+
+
+
+// 定义基础颜色
+const red = 'rgba(255, 0, 0, 1)';
+const green = 'rgba(0, 255, 0, 1)';
+const blue = 'rgba(0, 0, 255, 1)';
+
+option = {
+  color: [red, green, blue],
+  legend: {
+    right: '10%',
+    top: 'top',
+    // 1. 关键：将失活颜色设为透明，防止它变灰
+    inactiveColor: 'transparent', 
+    
+    // 2. 针对文字：使用 selectedMode 配合 textStyle
+    // 我们需要在点击时动态改变文字颜色。
+    // 为了满足“文字也要半透明”，我们可以通过 textStyle 的配置来实现
+    textStyle: {
+      color: '#333' 
+    }
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  xAxis: {
+    type: 'category',
+    data: ['周一', '周二', '周三', '周四', '周五']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    { name: '红色系列', type: 'bar', stack: 'total', data: [120, 132, 101, 134, 90] },
+    { name: '绿色系列', type: 'bar', stack: 'total', data: [220, 182, 191, 234, 290] },
+    { name: '蓝色系列', type: 'bar', stack: 'total', data: [150, 232, 201, 154, 190] }
+  ]
+};
+
+// 3. 动态处理：监听图例选择改变事件
+myChart.on('legendselectchanged', function (params) {
+    const selected = params.selected;
+    const seriesColors = {
+        '红色系列': '255, 0, 0',
+        '绿色系列': '0, 255, 0',
+        '蓝色系列': '0, 0, 255'
+    };
+
+    myChart.setOption({
+        legend: {
+            textStyle: {
+                // 动态调整图例文字的颜色和透明度
+                rich: Object.keys(selected).reduce((acc, name) => {
+                    acc[name] = {
+                        color: selected[name] 
+                               ? `rgba(${seriesColors[name]}, 1)` 
+                               : `rgba(${seriesColors[name]}, 0.5)`
+                    };
+                    return acc;
+                }, {})
+            },
+            // 使用 formatter 让文字应用 rich 样式
+            formatter: (name) => {
+                return `{${name}|${name}}`;
+            }
+        }
+    });
+});
+
+……………
 // 模拟三个系列的颜色
 const colors = ['#5470c6', '#91cc75', '#fac858'];
 
