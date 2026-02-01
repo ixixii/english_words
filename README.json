@@ -1,5 +1,77 @@
 
 
+图例图标颜色
+这是一个非常细节且专业的观察。在 ECharts 中，即使设置了 inactiveColor: 'transparent'，图例的 icon（图标） 在失活状态下默认会变成一种半透明的灰色或者直接消失，而不会自动维持原色并降低透明度。
+这是因为 ECharts 的 inactiveColor 实际上是用来填充失活图标颜色的。
+核心挑战
+icon 的颜色是由 ECharts 内部控制的，当系列被关闭时，它会移除原本的系列色，涂上 inactiveColor。要让图标也变成“半透明原色”，我们依然需要利用 legendselectchanged 事件来动态更新整个 legend 的颜色映射表。
+完美解决方案：动态 itemStyle 控制
+我们可以通过在 legend 级别动态更新 data 属性，为每一个图例项单独指定其 itemStyle。
+const colors = {
+    '红色': { base: 'rgba(255, 0, 0, 1)', alpha: 'rgba(255, 0, 0, 0.5)' },
+    '绿色': { base: 'rgba(0, 128, 0, 1)', alpha: 'rgba(0, 128, 0, 0.5)' },
+    '蓝色': { base: 'rgba(0, 0, 255, 1)', alpha: 'rgba(0, 0, 255, 0.5)' }
+};
+
+function getLegendOption(selected = {}) {
+    // 动态生成 legend 的 data 数组
+    const names = ['红色', '绿色', '蓝色'];
+    return names.map(name => {
+        const isSelected = selected[name] !== false; // 初始时 selected 为空，默认 true
+        return {
+            name: name,
+            icon: 'circle',
+            // --- 关键：直接控制每个图例项图标的样式 ---
+            itemStyle: {
+                color: isSelected ? colors[name].base : colors[name].alpha,
+                // 确保边框也同步透明
+                borderColor: isSelected ? colors[name].base : colors[name].alpha
+            },
+            textStyle: {
+                color: isSelected ? colors[name].base : colors[name].alpha
+            }
+        };
+    });
+}
+
+let option = {
+    legend: {
+        right: 10,
+        inactiveColor: 'transparent', // 必须保持透明，禁用默认遮罩
+        data: getLegendOption() // 初始化图例数据
+    },
+    color: [colors['红色'].base, colors['绿色'].base, colors['蓝色'].base],
+    xAxis: { type: 'category', data: ['A', 'B', 'C'] },
+    yAxis: { type: 'value' },
+    series: [
+        { name: '红色', type: 'bar', stack: 'total', data: [120, 132, 101] },
+        { name: '绿色', type: 'bar', stack: 'total', data: [220, 182, 191] },
+        { name: '蓝色', type: 'bar', stack: 'total', data: [150, 232, 201] }
+    ]
+};
+
+// 监听图例切换
+myChart.on('legendselectchanged', function (params) {
+    const selected = params.selected;
+    
+    // 重新配置 legend
+    myChart.setOption({
+        legend: {
+            data: getLegendOption(selected)
+        }
+    });
+});
+
+为什么这个方案能彻底解决问题？
+ * 突破全局限制：ECharts 的常规配置项通常是“全局生效”的，但 legend.data 允许你传入对象数组。每个对象可以拥有独立的 itemStyle。
+ * 强制颜色覆盖：通过显式指定 itemStyle.color 为 rgba 格式，我们强行覆盖了 ECharts 内部的“变灰”逻辑。
+ * 图标文字同步：在 getLegendOption 函数中，我们同时处理了 itemStyle（针对圆点图标）和 textStyle（针对文字），保证了视觉上的高度统一。
+视觉调试建议
+ * borderColor: 某些 ECharts 版本中，圆点图标会有 1px 的描边，建议将 borderColor 也设为一样的 rgba 颜色，防止边缘出现黑圈或灰圈。
+ * selectedMode: 如果你希望点击后柱子不消失，只是变淡，那涉及到的配置会更深。但目前的配置已经完美解决了“点击后图例本身变半透明原色”的需求。
+你可以直接把这段代码粘贴到编辑器中尝试。如果图标大小需要微调，可以在 itemStyle 同级加入 itemWidth: 10 等参数。是否需要我帮你再精简一下代码逻辑？
+
+………………
 图例半透明
 要实现“点击后变为半透明红色”，核心难点在于 ECharts 的 inactiveColor 是全局配置，无法直接为每个图例项单独设置不同的失活颜色。
 因此，我们需要通过 legend.textStyle.rich（富文本样式） 结合 legendselectchanged 事件 来动态修改样式。
