@@ -1,3 +1,54 @@
+// 模拟三个系列的颜色
+const colors = ['#5470c6', '#91cc75', '#fac858'];
+
+option = {
+  color: colors,
+  legend: {
+    data: ['系列1', '系列2', '系列3'],
+    // --- 核心配置开始 ---
+    
+    // 1. 将失活状态的图标颜色设为透明，这样它就不会变灰
+    // ECharts 会显示图形的描边或背景，配合下面的 opacity 实现半透明
+    inactiveColor: 'rgba(0,0,0,0)', 
+    
+    textStyle: {
+      rich: {
+        // 如果需要更复杂的文字控制，可以在这里定义 rich text
+      }
+    },
+    
+    // 2. 这里的重点是：ECharts 图例文字在失活时默认会跟随 inactiveColor
+    // 为了让文字也变半透明而不是纯灰色，我们需要在全局控制或局部回调
+    // --- 核心配置结束 ---
+  },
+  tooltip: { trigger: 'axis' },
+  xAxis: { type: 'category', data: ['周一', '周二', '周三'] },
+  yAxis: { type: 'value' },
+  series: [
+    { name: '系列1', type: 'bar', stack: 'total', data: [120, 132, 101] },
+    { name: '系列2', type: 'bar', stack: 'total', data: [220, 182, 191] },
+    { name: '系列3', type: 'bar', stack: 'total', data: [150, 232, 201] }
+  ]
+};
+
+// 3. 监听图例切换事件，动态调整图例文字透明度
+// 这是实现“文字也跟着变 50% 透明”最稳妥的方法
+myChart.on('legendselectchanged', function (params) {
+    const selected = params.selected;
+    myChart.setOption({
+        legend: {
+            textStyle: {
+                // 通过回调函数或动态数组设置颜色（部分版本支持）
+                // 这里的方案是直接更新整个 legend 的颜色配置
+                color: (name) => {
+                    return selected[name] ? '#333' : 'rgba(51, 51, 51, 0.5)';
+                }
+            }
+        }
+    });
+});
+
+…………
 这是一个完整的、可直接运行的 HTML 示例。我将逻辑整合在了 updateTripleStackedLines 函数中。这个页面包含了三层堆叠的数据，并利用 graphic 组件在层与层之间精准绘制了 1px 的灰色分界线。
 你可以将以下代码保存为 .html 文件并在浏览器中打开：
 <!DOCTYPE html>
