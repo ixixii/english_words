@@ -1,6 +1,105 @@
 
 
+gpt
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>ECharts 进阶版 legend 半透明</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+<body>
+  <div id="chart" style="width: 600px; height: 400px;"></div>
 
+  <script>
+    const chart = echarts.init(document.getElementById('chart'));
+
+    const colorMap = {
+      红色: [255, 0, 0],
+      绿色: [0, 255, 0],
+      蓝色: [0, 0, 255]
+    };
+
+    function rgba(name, alpha) {
+      const [r, g, b] = colorMap[name];
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    let option = {
+      legend: {
+        inactiveColor: 'transparent',
+        formatter: function (name) {
+          const selected = option.legend.selected[name] !== false;
+          return `{${name}|${name}}`;
+        },
+        textStyle: {
+          rich: {
+            红色: {},
+            绿色: {},
+            蓝色: {}
+          }
+        }
+      },
+      xAxis: {
+        type: 'category',
+        data: ['A', 'B', 'C']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          name: '红色',
+          type: 'bar',
+          stack: 'total',
+          data: [10, 20, 30]
+        },
+        {
+          name: '绿色',
+          type: 'bar',
+          stack: 'total',
+          data: [15, 25, 35]
+        },
+        {
+          name: '蓝色',
+          type: 'bar',
+          stack: 'total',
+          data: [5, 10, 15]
+        }
+      ]
+    };
+
+    function updateStyle() {
+      const selected = option.legend.selected || {};
+
+      // legend 文字
+      Object.keys(colorMap).forEach(name => {
+        const active = selected[name] !== false;
+        option.legend.textStyle.rich[name] = {
+          color: rgba(name, active ? 1 : 0.5)
+        };
+      });
+
+      // series & icon
+      option.series.forEach(s => {
+        const active = selected[s.name] !== false;
+        s.itemStyle = {
+          color: rgba(s.name, active ? 1 : 0.5)
+        };
+      });
+    }
+
+    updateStyle();
+    chart.setOption(option);
+
+    chart.on('legendselectchanged', function () {
+      updateStyle();
+      chart.setOption(option);
+    });
+  </script>
+</body>
+</html>
+………………
 // 定义基础颜色
 const red = 'rgba(255, 0, 0, 1)';
 const green = 'rgba(0, 255, 0, 1)';
