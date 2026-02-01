@@ -1,3 +1,94 @@
+
+点击图例，更新总数
+这是一个非常关键的问题。如果你按照之前硬编码（预先计算好总数）的方式，点击图例隐藏红色后，总数是不会自动更新的，因为它只是一串写死的数字。
+为了实现“总数随图例显隐动态变化”，你需要利用 ECharts 的 label 格式化函数（formatter） 实时计算当前处于“显示状态”的系列总和。
+以下是实现动态总数的完整方案：
+核心逻辑
+ * 不预计算数据：辅助系列的数据依然设为 0，并堆叠在最上方。
+ * 动态求和：在 label.formatter 中，通过 myChart.getOption() 获取当前所有系列的选中状态（legend.selected），只累加那些没有被隐藏的数据。
+代码实现
+// 初始数据
+const dataRed = [120, 132, 101];
+const dataGreen = [220, 182, 191];
+const dataBlue = [150, 232, 201];
+
+const seriesData = [
+    { name: '红色', data: dataRed, color: 'red' },
+    { name: '绿色', data: dataGreen, color: 'green' },
+    { name: '蓝色', data: dataBlue, color: 'blue' }
+];
+
+option = {
+    legend: {
+        data: ['红色', '绿色', '蓝色']
+    },
+    xAxis: { type: 'category', data: ['项目A', '项目B', '项目C'] },
+    yAxis: { type: 'value' },
+    series: [
+        ...seriesData.map(s => ({
+            name: s.name,
+            type: 'bar',
+            stack: 'total',
+            data: s.data,
+            itemStyle: { color: s.color }
+        })),
+        {
+            name: '总数',
+            type: 'bar',
+            stack: 'total',
+            itemStyle: { color: 'transparent' },
+            tooltip: { show: false },
+            label: {
+                show: true,
+                position: 'top',
+                color: '#333',
+                fontWeight: 'bold',
+                // --- 核心动态计算逻辑 ---
+                formatter: (params) => {
+                    // 1. 获取当前图表的完整配置项
+                    let res = 0;
+                    const opt = myChart.getOption();
+                    const selected = opt.legend[0].selected; // 获取图例选中状态
+                    const dataIndex = params.dataIndex;      // 当前 X 轴的索引
+
+                    // 2. 遍历所有系列（排除掉“总数”系列本身）
+                    opt.series.forEach(s => {
+                        if (s.name !== '总数') {
+                            // 判断图例状态：如果图例不存在或者为 true，则累加
+                            // 默认情况下，未点击过的图例在 selected 对象里可能是 undefined，表示显示
+                            if (!selected || selected[s.name] !== false) {
+                                res += s.data[dataIndex];
+                            }
+                        }
+                    });
+                    
+                    // 如果总和为 0，可以选择不显示
+                    return res > 0 ? res : '';
+                }
+            },
+            data: [0, 0, 0] // 始终为0，仅作为 Label 的载体
+        }
+    ]
+};
+
+// 必须监听图例点击事件，手动触发重绘，否则 formatter 不会重新执行
+myChart.on('legendselectchanged', function () {
+    myChart.setOption(option); 
+    // 或者直接 myChart.setOption({}); 触发刷新
+});
+
+为什么必须这样做？
+ * ECharts 的局部刷新机制：当你点击图例时，ECharts 会隐藏对应的系列并重绘坐标轴，但它不会自动重新计算其他系列的 formatter 内容。
+ * legendselectchanged 监听器：通过监听这个事件并执行 setOption，可以强制 ECharts 重新执行 label 的 formatter 函数，从而获取最新的 selected 状态并算出正确的总数。
+ * selected[s.name] !== false：这是最稳妥的判断方式。因为初始化时 selected 对象通常是空的，只有点击过图例后，对应名称的值才会变成 false 或 true。
+总结
+通过这种方式，当你点击隐藏“红色”：
+ * 红色柱子消失。
+ * 绿色和蓝色柱子下沉。
+ * 顶部的“总数”Label 触发重新计算：0 (红) + 绿 + 蓝。
+ * 最终效果：总数数字变小，且位置依然紧贴在剩下的绿色/蓝色柱子顶部。
+
+………
 总数经典做法
 
 在 ECharts 堆叠柱状图中，显示“总计数”最经典且专业的方法是使用一个辅助系列（Invisible Series）。
