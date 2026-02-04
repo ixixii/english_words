@@ -1,3 +1,98 @@
+good_自定义Legend
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        /* 自定义 Legend 容器样式 */
+        #custom-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 10px;
+            font-family: sans-serif;
+            cursor: pointer;
+            user-select: none;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s; /* 平滑过渡 */
+        }
+        .legend-rect {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            border-radius: 2px;
+        }
+        /* 当被点击（隐藏）时的样式 */
+        .is-hidden {
+            opacity: 0.3; /* 降低整体透明度 */
+        }
+    </style>
+</head>
+<body>
+    <div id="custom-legend">
+        <div class="legend-item" data-name="红" onclick="toggleSeries('红', this)">
+            <div class="legend-rect" style="background: red;"></div>
+            <span>红色系列</span>
+        </div>
+        <div class="legend-item" data-name="绿" onclick="toggleSeries('绿', this)">
+            <div class="legend-rect" style="background: green;"></div>
+            <span>绿色系列</span>
+        </div>
+        <div class="legend-item" data-name="蓝" onclick="toggleSeries('蓝', this)">
+            <div class="legend-rect" style="background: blue;"></div>
+            <span>蓝色系列</span>
+        </div>
+    </div>
+
+    <div id="main" style="width: 600px;height:400px;"></div>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 记录状态
+        let selectedState = { '红': true, '绿': true, '蓝': true };
+
+        var option = {
+            // 关键：彻底关闭原生的 legend
+            legend: { show: false },
+            xAxis: { type: 'category', data: ['A', 'B', 'C', 'D'] },
+            yAxis: { type: 'value' },
+            series: [
+                { name: '红', type: 'bar', stack: 'total', data: [120, 132, 101, 134], itemStyle: { color: 'red' } },
+                { name: '绿', type: 'bar', stack: 'total', data: [220, 182, 191, 234], itemStyle: { color: 'green' } },
+                { name: '蓝', type: 'bar', stack: 'total', data: [150, 232, 201, 154], itemStyle: { color: 'blue' } }
+            ]
+        };
+
+        myChart.setOption(option);
+
+        // 3. 点击 HTML Legend 的逻辑
+        function toggleSeries(name, el) {
+            // 切换状态
+            selectedState[name] = !selectedState[name];
+
+            // 更新 HTML 样式
+            if (selectedState[name]) {
+                el.classList.remove('is-hidden');
+            } else {
+                el.classList.add('is-hidden');
+            }
+
+            // 更新 ECharts 状态
+            myChart.dispatchAction({
+                type: 'legendToggleSelect',
+                name: name
+            });
+        }
+    </script>
+</body>
+</html>
+-------
 good_仪表盘虚线极简
 <!DOCTYPE html>
 <html lang="zh-CN">
