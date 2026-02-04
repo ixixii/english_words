@@ -1,5 +1,585 @@
+good_仪表盘虚线极简
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简虚线实现</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #chart-container {
+            width: 600px;
+            height: 400px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart-container"></div>
 
+    <script>
+        const chartDom = document.getElementById('chart-container');
+        const chart = echarts.init(chartDom);
+        
+        // 计算坐标的辅助函数
+        function getPointCoordinate(value) {
+            const chartWidth = chart.getWidth();
+            const chartHeight = chart.getHeight();
+            
+            // 圆心位置（50%, 60%）
+            const centerX = chartWidth * 0.5;
+            const centerY = chartHeight * 0.6;
+            
+            // 半径估算
+            const minSize = Math.min(chartWidth, chartHeight);
+            const outerRadius = minSize * 0.45; // 约80%半径减去边距
+            const innerRadius = outerRadius * 0.9; // 内径为外径的60%
+            
+            // 计算角度
+            const startAngle = 225;
+            const endAngle = -45;
+            const totalAngle = 270;
+            const angle = (startAngle - (value / 100) * totalAngle) * Math.PI / 180;
+            
+            return {
+                center: [centerX, centerY],
+                innerPoint: [
+                    centerX + Math.cos(angle) * innerRadius,
+                    centerY - Math.sin(angle) * innerRadius
+                ],
+                outerPoint: [
+                    centerX + Math.cos(angle) * outerRadius,
+                    centerY - Math.sin(angle) * outerRadius
+                ]
+            };
+        }
+        
+        // 极简配置
+        const option = {
+            series: [
+                {
+                    name: '仪表盘',
+                    type: 'gauge',
+                    center: ['50%', '60%'],
+                    radius: '80%',
+                    startAngle: 225,
+                    endAngle: -45,
+                    min: 0,
+                    max: 100,
+                    data: [{ value: 50, name: 'SCORE' }],
+                    pointer: { length: '75%', width: 3 },
+                    detail: { formatter: '{value}' }
+                }
+            ]
+        };
+        
+        chart.setOption(option);
+        
+        // 绘制虚线（核心函数，非常简洁）
+        function drawDashedLine(value) {
+            const coords = getPointCoordinate(value);
+            
+            chart.setOption({
+                graphic: {
+                    elements: [
+                        // 只有这一段虚线！
+                        {
+                            type: 'line',
+                            shape: {
+                                x1: coords.innerPoint[0],
+                                y1: coords.innerPoint[1],
+                                x2: coords.outerPoint[0],
+                                y2: coords.outerPoint[1]
+                            },
+                            style: {
+                                stroke: '#ff4500',
+                                lineWidth: 2,
+                                lineDash: [2, 2], // 这就是虚线！
+                                opacity: 0.8
+                            }
+                        },
+                        // 可选的终点标记
+                        // {
+                        //     type: 'circle',
+                        //     shape: {
+                        //         cx: coords.outerPoint[0],
+                        //         cy: coords.outerPoint[1],
+                        //         r: 4
+                        //     },
+                        //     style: {
+                        //         fill: '#ff4500',
+                        //         stroke: '#fff',
+                        //         lineWidth: 2
+                        //     }
+                        // }
+                    ]
+                }
+            });
+            
+            console.log('绘制完成：从内径到圆周的虚线');
+        }
+        
+        // 初始绘制
+        setTimeout(() => drawDashedLine(40), 500);
+        
+        // 添加交互：点击不同位置
+        chart.on('click', function(params) {
+            if (params.seriesType === 'gauge') {
+                drawDashedLine(params.value);
+            }
+        });
+        
+        // 或者用按钮控制
+        const btn = document.createElement('button');
+        btn.textContent = '绘制40刻度虚线';
+        btn.style.cssText = 'position:absolute;top:20px;left:20px;';
+        btn.onclick = () => drawDashedLine(40);
+        document.body.appendChild(btn);
+    </script>
+</body>
+</html>
+------------
+good_仪表盘虚线
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仪表盘内径线示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #chart-container {
+            width: 600px;
+            height: 500px;
+            margin: 20px auto;
+            border: 1px solid #eee;
+        }
+        .control-panel {
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .slider-group {
+            margin: 10px 0;
+        }
+        label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="control-panel">
+        <div class="slider-group">
+            <label>切线长度：</label>
+            <input type="range" id="lineLength" min="10" max="100" value="30" onchange="updateLines()">
+            <span id="lengthValue">30px</span>
+        </div>
+        <div class="slider-group">
+            <label>内径比例：</label>
+            <input type="range" id="innerRadius" min="0" max="100" value="84" onchange="updateLines()">
+            <span id="innerRadiusValue">84%</span>
+        </div>
+        <div class="slider-group">
+            <label>指针长度：</label>
+            <input type="range" id="pointerLength" min="0" max="100" value="75" onchange="updateLines()">
+            <span id="pointerLengthValue">75%</span>
+        </div>
+        <button onclick="updateLines(40)">40刻度</button>
+        <button onclick="updateLines(70)">70刻度</button>
+        <button onclick="updateLines(0)">0刻度</button>
+        <button onclick="updateLines(100)">100刻度</button>
+    </div>
+    <div id="chart-container"></div>
 
+    <script>
+        // 初始化图表
+        const chartDom = document.getElementById('chart-container');
+        const chart = echarts.init(chartDom);
+        
+        // 存储配置参数
+        const chartConfig = {
+            center: ['50%', '60%'],
+            radius: '80%',
+            startAngle: 225,
+            endAngle: -45,
+            currentValue: 40,
+            innerRadiusRatio: 0.84 // 内径比例，相对于外径
+        };
+        
+        // 仪表盘配置
+        const option = {
+            tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+            },
+            series: [
+                {
+                    name: 'Pressure',
+                    type: 'gauge',
+                    center: chartConfig.center,
+                    radius: chartConfig.radius,
+                    startAngle: chartConfig.startAngle,
+                    endAngle: chartConfig.endAngle,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 10,
+                    detail: {
+                        formatter: '{value}',
+                        fontSize: 16,
+                        offsetCenter: [0, '70%']
+                    },
+                    data: [
+                        {
+                            value: 50,
+                            name: 'SCORE'
+                        }
+                    ],
+                    pointer: {
+                        length: '75%',
+                        width: 3
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            width: 15,
+                            color: [
+                                [0.3, '#67C23A'],
+                                [0.7, '#E6A23C'],
+                                [1, '#F56C6C']
+                            ]
+                        }
+                    },
+                    axisTick: {
+                        length: 8,
+                        lineStyle: {
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {
+                        length: 12,
+                        lineStyle: {
+                            color: 'auto'
+                        }
+                    },
+                    axisLabel: {
+                        distance: 20,
+                        fontSize: 12,
+                        color: 'auto'
+                    }
+                }
+            ]
+        };
+        
+        // 设置初始配置
+        chart.setOption(option);
+        
+        // 滑块事件处理
+        document.getElementById('lineLength').addEventListener('input', function(e) {
+            document.getElementById('lengthValue').textContent = e.target.value + 'px';
+            updateLines();
+        });
+        
+        document.getElementById('innerRadius').addEventListener('input', function(e) {
+            const percent = e.target.value;
+            document.getElementById('innerRadiusValue').textContent = percent + '%';
+            chartConfig.innerRadiusRatio = percent / 100;
+            updateLines();
+        });
+        
+        document.getElementById('pointerLength').addEventListener('input', function(e) {
+            const percent = e.target.value;
+            document.getElementById('pointerLengthValue').textContent = percent + '%';
+            chartConfig.pointerLength = percent;
+            updateLines();
+        });
+        
+        // 计算圆心像素坐标
+        function getCenterPixel() {
+            const chartWidth = chart.getWidth();
+            const chartHeight = chart.getHeight();
+            return [
+                chartWidth * parseFloat(chartConfig.center[0]) / 100,
+                chartHeight * parseFloat(chartConfig.center[1]) / 100
+            ];
+        }
+        
+        // 计算实际外径（仪表盘外边缘半径）
+        function getOuterRadius() {
+            const chartWidth = chart.getWidth();
+            const chartHeight = chart.getHeight();
+            const minSize = Math.min(chartWidth, chartHeight);
+            const radiusPercent = parseFloat(chartConfig.radius) / 100;
+            
+            const estimatedRadius = minSize * radiusPercent * 0.65;
+            const padding = 40; // 考虑边距
+            return estimatedRadius - padding;
+        }
+        
+        // 更新所有线条
+        function updateLines(value = chartConfig.currentValue) {
+            if (value !== undefined) {
+                chartConfig.currentValue = value;
+            } else {
+                value = chartConfig.currentValue;
+            }
+            
+            console.log(`\n=== 更新线条，刻度值: ${value} ===`);
+            
+            // 获取圆心和外径
+            const centerPixel = getCenterPixel();
+            const outerRadius = getOuterRadius();
+            
+            // 计算内径（根据比例）
+            const innerRadius = outerRadius * chartConfig.innerRadiusRatio;
+            
+            console.log(`外径: ${outerRadius.toFixed(1)}px`);
+            console.log(`内径比例: ${(chartConfig.innerRadiusRatio * 100).toFixed(0)}%`);
+            console.log(`内径: ${innerRadius.toFixed(1)}px`);
+            
+            // 计算角度
+            const totalAngle = chartConfig.startAngle - chartConfig.endAngle;
+            const targetAngle = (chartConfig.startAngle - (value / 100) * totalAngle) * Math.PI / 180;
+            
+            // 计算外径上的目标点（圆周上的点）
+            const outerPointX = centerPixel[0] + Math.cos(targetAngle) * outerRadius;
+            const outerPointY = centerPixel[1] - Math.sin(targetAngle) * outerRadius;
+            
+            // 计算内径上的起点
+            const innerPointX = centerPixel[0] + Math.cos(targetAngle) * innerRadius;
+            const innerPointY = centerPixel[1] - Math.sin(targetAngle) * innerRadius;
+            
+            // 获取滑块值
+            const lineLength = parseInt(document.getElementById('lineLength').value);
+            
+            // 计算切线角度
+            const tangentAngle = targetAngle + Math.PI / 2;
+            
+            // 计算切线端点
+            const tangentStartX = outerPointX - Math.cos(tangentAngle) * lineLength / 2;
+            const tangentStartY = outerPointY + Math.sin(tangentAngle) * lineLength / 2;
+            const tangentEndX = outerPointX + Math.cos(tangentAngle) * lineLength / 2;
+            const tangentEndY = outerPointY - Math.sin(tangentAngle) * lineLength / 2;
+            
+            // 创建图形元素数组
+            const graphicElements = [
+                // 1. 切线
+                {
+                    type: 'line',
+                    shape: {
+                        x1: tangentStartX,
+                        y1: tangentStartY,
+                        x2: tangentEndX,
+                        y2: tangentEndY
+                    },
+                    style: {
+                        stroke: '#409EFF',
+                        lineWidth: 2,
+                        lineDash: [5, 3],
+                        opacity: 0.8
+                    },
+                    zlevel: 10
+                },
+                // 2. 半径线（从内径到外径）
+                {
+                    type: 'line',
+                    shape: {
+                        x1: innerPointX,
+                        y1: innerPointY,
+                        x2: outerPointX,
+                        y2: outerPointY
+                    },
+                    style: {
+                        stroke: '#E6A23C',
+                        lineWidth: 2,
+                        lineDash: [2, 2],
+                        opacity: 0.8
+                    },
+                    zlevel: 9
+                },
+                // 3. 外径目标点
+                {
+                    type: 'circle',
+                    shape: {
+                        cx: outerPointX,
+                        cy: outerPointY,
+                        r: 4
+                    },
+                    style: {
+                        fill: '#F56C6C',
+                        stroke: '#fff',
+                        lineWidth: 2
+                    },
+                    zlevel: 11
+                },
+                // 4. 内径起点标记
+                {
+                    type: 'circle',
+                    shape: {
+                        cx: innerPointX,
+                        cy: innerPointY,
+                        r: 3
+                    },
+                    style: {
+                        fill: '#67C23A',
+                        stroke: '#fff',
+                        lineWidth: 1
+                    },
+                    zlevel: 11
+                },
+                // 5. 圆心标记
+                {
+                    type: 'circle',
+                    shape: {
+                        cx: centerPixel[0],
+                        cy: centerPixel[1],
+                        r: 3
+                    },
+                    style: {
+                        fill: '#909399',
+                        stroke: '#fff',
+                        lineWidth: 1
+                    },
+                    zlevel: 11
+                },
+                // 6. 绘制内径圆环（可视化内径位置）
+                {
+                    type: 'circle',
+                    shape: {
+                        cx: centerPixel[0],
+                        cy: centerPixel[1],
+                        r: innerRadius
+                    },
+                    style: {
+                        stroke: '#67C23A',
+                        lineWidth: 1,
+                        fill: 'transparent',
+                        opacity: 0.5
+                    },
+                    zlevel: 8
+                },
+                // 7. 绘制外径圆环
+                {
+                    type: 'circle',
+                    shape: {
+                        cx: centerPixel[0],
+                        cy: centerPixel[1],
+                        r: outerRadius
+                    },
+                    style: {
+                        stroke: '#F56C6C',
+                        lineWidth: 1,
+                        fill: 'transparent',
+                        opacity: 0.3
+                    },
+                    zlevel: 8
+                },
+                // 8. 指针线（如果配置了指针长度）
+                (() => {
+                    if (chartConfig.pointerLength) {
+                        const pointerRatio = chartConfig.pointerLength / 100;
+                        const pointerRadius = innerRadius + (outerRadius - innerRadius) * pointerRatio;
+                        const pointerX = centerPixel[0] + Math.cos(targetAngle) * pointerRadius;
+                        const pointerY = centerPixel[1] - Math.sin(targetAngle) * pointerRadius;
+                        
+                        return {
+                            type: 'line',
+                            shape: {
+                                x1: centerPixel[0],
+                                y1: centerPixel[1],
+                                x2: pointerX,
+                                y2: pointerY
+                            },
+                            style: {
+                                stroke: '#409EFF',
+                                lineWidth: 3,
+                                opacity: 0.6
+                            },
+                            zlevel: 7
+                        };
+                    }
+                    return null;
+                })()
+            ].filter(element => element !== null); // 过滤掉null元素
+            
+            // 计算线长信息
+            const lineLengthPixels = Math.sqrt(
+                Math.pow(outerPointX - innerPointX, 2) + 
+                Math.pow(outerPointY - innerPointY, 2)
+            ).toFixed(1);
+            
+            console.log(`半径线长度: ${lineLengthPixels}px`);
+            console.log(`从内径(${innerRadius.toFixed(1)}px)到外径(${outerRadius.toFixed(1)}px)`);
+            
+            // 更新图表
+            chart.setOption({
+                graphic: { elements: graphicElements }
+            });
+        }
+        
+        // 初始绘制
+        setTimeout(() => updateLines(40), 500);
+        
+        // 窗口大小变化时重新计算
+        window.addEventListener('resize', function() {
+            chart.resize();
+            setTimeout(() => updateLines(), 200);
+        });
+        
+        // 添加内径预设按钮
+        const presetPanel = document.createElement('div');
+        presetPanel.className = 'slider-group';
+        presetPanel.innerHTML = `
+            <label>内径预设：</label>
+            <button onclick="setInnerRadius(0)">从圆心(0%)</button>
+            <button onclick="setInnerRadius(30)">30%内径</button>
+            <button onclick="setInnerRadius(50)">50%内径</button>
+            <button onclick="setInnerRadius(70)">70%内径</button>
+            <button onclick="setInnerRadius(90)">靠近外径</button>
+        `;
+        document.querySelector('.control-panel').appendChild(presetPanel);
+        
+        function setInnerRadius(percent) {
+            document.getElementById('innerRadius').value = percent;
+            document.getElementById('innerRadiusValue').textContent = percent + '%';
+            chartConfig.innerRadiusRatio = percent / 100;
+            updateLines();
+        }
+        
+        // 计算指针位置
+        function calculatePointerPosition() {
+            // 仪表盘指针通常从圆心或内径开始
+            // 这里我们模拟真实的指针：从内径开始，指向外径
+            const centerPixel = getCenterPixel();
+            const outerRadius = getOuterRadius();
+            const innerRadius = outerRadius * chartConfig.innerRadiusRatio;
+            
+            // 如果配置了指针长度
+            if (chartConfig.pointerLength) {
+                const pointerRatio = chartConfig.pointerLength / 100;
+                // 指针从内径开始，延伸到外径的某个位置
+                const pointerStartRadius = innerRadius;
+                const pointerEndRadius = innerRadius + (outerRadius - innerRadius) * pointerRatio;
+                
+                return {
+                    start: [
+                        centerPixel[0] + Math.cos(targetAngle) * pointerStartRadius,
+                        centerPixel[1] - Math.sin(targetAngle) * pointerStartRadius
+                    ],
+                    end: [
+                        centerPixel[0] + Math.cos(targetAngle) * pointerEndRadius,
+                        centerPixel[1] - Math.sin(targetAngle) * pointerEndRadius
+                    ]
+                };
+            }
+            
+            return null;
+        }
+    </script>
+</body>
+</html>
+-------------
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
