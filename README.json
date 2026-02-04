@@ -1,5 +1,244 @@
 
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>good_仪表盘虚线示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        #chart-container {
+            width: 600px;
+            height: 500px;
+            margin: 20px auto;
+            border: 1px solid #eee;
+        }
+        .control-panel {
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="control-panel">
+        <button onclick="updateTangentLine(40)">更新到40刻度</button>
+        <button onclick="updateTangentLine(70)">更新到70刻度</button>
+    </div>
+    <div id="chart-container"></div>
+
+    <script>
+        // 初始化图表
+        const chartDom = document.getElementById('chart-container');
+        const chart = echarts.init(chartDom);
+        
+        // 存储配置参数
+        const chartConfig = {
+            center: ['50%', '60%'],  // 圆心
+            radius: '100%',           // 半径
+            startAngle: 225,         // 起始角度
+            endAngle: -45,           // 结束角度
+            currentValue: 40         // 当前刻度值
+        };
+        
+        // 仪表盘配置
+        const option = {
+            tooltip: {
+                formatter: '{a} <br/>{b} : {c}%'
+            },
+            series: [
+                {
+                    name: 'Pressure',
+                    type: 'gauge',
+                    center: chartConfig.center,
+                    radius: chartConfig.radius,
+                    startAngle: chartConfig.startAngle,
+                    endAngle: chartConfig.endAngle,
+                    min: 0,
+                    max: 100,
+                    splitNumber: 10,
+                    detail: {
+                        formatter: '{value}',
+                        fontSize: 16,
+                        offsetCenter: [0, '70%']
+                    },
+                    data: [
+                        {
+                            value: 50,
+                            name: 'SCORE'
+                        }
+                    ],
+                    pointer: {
+                        length: '75%',
+                        width: 3
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            width: 15,
+                            color: [
+                                [0.3, '#67C23A'],
+                                [0.7, '#E6A23C'],
+                                [1, '#F56C6C']
+                            ]
+                        }
+                    },
+                    axisTick: {
+                        length: 8,
+                        lineStyle: {
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {
+                        length: 12,
+                        lineStyle: {
+                            color: 'auto'
+                        }
+                    },
+                    axisLabel: {
+                        distance: 20,
+                        fontSize: 12,
+                        color: 'auto'
+                    },
+                    title: {
+                        show: true,
+                        offsetCenter: [0, '40%'],
+                        fontSize: 14
+                    }
+                }
+            ]
+        };
+        
+        // 设置初始配置
+        chart.setOption(option);
+        
+        // 方法1：手动计算圆心像素坐标（更稳定）
+        function getCenterPixel() {
+            const chartWidth = chart.getWidth();
+            const chartHeight = chart.getHeight();
+            
+            // 从配置中解析百分比
+            const centerXPercent = parseFloat(chartConfig.center[0]) / 100;
+            const centerYPercent = parseFloat(chartConfig.center[1]) / 100;
+            
+            return [
+                chartWidth * centerXPercent,
+                chartHeight * centerYPercent
+            ];
+        }
+        
+        // 计算并绘制切线
+        function updateTangentLine(value = chartConfig.currentValue) {
+            // 更新当前值
+            if (value !== undefined) {
+                chartConfig.currentValue = value;
+            } else {
+                value = chartConfig.currentValue;
+            }
+            
+            console.log("正在更新切线，刻度值:", value);
+            
+            // 获取图表尺寸
+            const chartWidth = chart.getWidth();
+            const chartHeight = chart.getHeight();
+            
+            // 方法1：直接计算圆心坐标（推荐，更稳定）
+            const centerPixel = getCenterPixel();
+            console.log("sg__centerPixel (手动计算): ", centerPixel);
+            
+            if (!centerPixel || isNaN(centerPixel[0]) || isNaN(centerPixel[1])) {
+                console.error("无法获取圆心坐标，使用默认值");
+                // 使用默认坐标
+                centerPixel = [chartWidth * 0.5, chartHeight * 0.6];
+            }
+            
+            // 仪表盘角度参数
+            const totalAngle = chartConfig.startAngle - chartConfig.endAngle; // 225 - (-45) = 270
+            
+            // 计算指定刻度对应的角度（弧度）
+            const targetAngle = (chartConfig.startAngle - (value / 100) * totalAngle) * Math.PI / 180;
+            
+            // 计算半径（像素）- 根据百分比计算
+            const minSize = Math.min(chartWidth, chartHeight);
+
+            const radiusPercent = parseFloat(chartConfig.radius) / 100;
+
+            // 注意：由于圆的左边和顶部距离canvas有段距离，所以这个radiusPixel不是真正的圆的半径的像素尺寸
+            const radiusPixel = minSize * radiusPercent;
+
+            
+            // 计算目标点坐标（仪表盘上的点）
+            const x = Math.cos(targetAngle)
+            const y = Math.sin(targetAngle)
+            console.log("sg__x,y: ", {x,y})
+            const pointX = centerPixel[0] + x * radiusPixel;
+            const pointY = centerPixel[1] - y * radiusPixel;
+
+            console.log("sg__minSize: ", {targetAngle, minSize, radiusPercent, radiusPixel, pointX, pointY})
+            console.log("sg__centerPixel: ", {x1: centerPixel[0], y1: centerPixel[1]})
+            
+            console.log("计算得到的坐标:");
+            console.log("- 圆心:", centerPixel.map(n => n.toFixed(1)));
+            console.log("- 目标点:", [pointX.toFixed(1), pointY.toFixed(1)]);
+            
+            // 更新图表配置
+            chart.setOption({
+                graphic: {
+                    elements: [
+                        // 半径线（从圆心到点）
+                        {
+                            type: 'line',
+                            shape: {
+                                x1: centerPixel[0],
+                                y1: centerPixel[1],
+                                x2: pointX,
+                                y2: pointY
+                            },
+                            style: {
+                                stroke: '#E6A23C',
+                                lineWidth: 1,
+                                lineDash: [2, 2],
+                                opacity: 0.5
+                            },
+                            zlevel: 9
+                        }
+                    ]
+                }
+            });
+        }
+        
+        // 初始化图表后的回调
+        chart.on('finished', function() {
+            console.log("图表渲染完成，开始绘制切线");
+            updateTangentLine(40);
+        });
+        
+        // 也可以使用setTimeout确保图表已渲染
+        setTimeout(() => {
+            console.log("延迟绘制切线");
+            updateTangentLine(40);
+        }, 500);
+        
+        // 窗口大小变化时重新计算
+        window.addEventListener('resize', function() {
+            chart.resize();
+            setTimeout(() => {
+                console.log("窗口大小改变，重新绘制切线");
+                updateTangentLine();
+            }, 200);
+        });
+        
+        // 初始绘制
+        chart.setOption(option, true);
+    </script>
+</body>
+</html>
+
+-------------
 图例图标颜色
 这是一个非常细节且专业的观察。在 ECharts 中，即使设置了 inactiveColor: 'transparent'，图例的 icon（图标） 在失活状态下默认会变成一种半透明的灰色或者直接消失，而不会自动维持原色并降低透明度。
 这是因为 ECharts 的 inactiveColor 实际上是用来填充失活图标颜色的。
