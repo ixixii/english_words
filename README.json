@@ -1,3 +1,155 @@
+good__半透明图例图标
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts Legend Custom Opacity</title>
+    <script src="https://cdn.staticfile.org/echarts/5.4.3/echarts.min.js"></script>
+    <style>
+        #main { width: 100%; height: 400px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // === 1. 定义原始数据和颜色配置 ===
+        // 我们必须把数据存下来，因为点击隐藏时，我们会把图表里的数据删掉
+        var rawData = {
+            '红色系列': [120, 132, 101, 134, 90],
+            '绿色系列': [220, 182, 191, 234, 290],
+            '蓝色系列': [150, 232, 201, 154, 190]
+        };
+
+        var colorMap = {
+            '红色系列': '255, 0, 0',
+            '绿色系列': '0, 128, 0',
+            '蓝色系列': '0, 0, 255'
+        };
+
+        // 记录每个系列的显示状态 (true: 显示, false: 隐藏)
+        var visibilityState = {
+            '红色系列': true,
+            '绿色系列': true,
+            '蓝色系列': true
+        };
+
+        // === 2. 动态生成图例数据 ===
+        function getLegendData() {
+            var data = [];
+            for (var name in colorMap) {
+                var rgb = colorMap[name];
+                // 如果状态是显示，透明度 1；如果是隐藏，透明度 0.4
+                var alpha = visibilityState[name] ? 1 : 0.4;
+                
+                data.push({
+                    name: name,
+                    // 保持圆形
+                    icon: 'circle', 
+                    itemStyle: {
+                        // 关键：在这里直接控制颜色和透明度
+                        color: 'rgba(' + rgb + ',' + alpha + ')',
+                        borderColor: 'rgba(' + rgb + ',' + alpha + ')',
+                        borderWidth: 0
+                    }
+                });
+            }
+            return data;
+        }
+
+        // === 3. 动态生成 Series 数据 ===
+        function getSeriesData() {
+            var seriesList = [];
+            for (var name in rawData) {
+                // 如果状态是 true，填充原始数据；
+                // 如果状态是 false，填充空数组 [] (这样柱子就消失了，堆叠也会重算)
+                var currentData = visibilityState[name] ? rawData[name] : [];
+                
+                seriesList.push({
+                    name: name,
+                    type: 'bar',
+                    stack: 'total', // 保持堆叠
+                    data: currentData,
+                    // 系列本身的颜色（不需要变淡，因为隐藏时数据都没了）
+                    itemStyle: { color: 'rgb(' + colorMap[name] + ')' }
+                });
+            }
+            return seriesList;
+        }
+
+        var option = {
+            title: {
+                text: '点击图例 -> 柱子消失 + 图例变淡(不灰色)',
+                left: 'center',
+                top: 10,
+                textStyle: { fontSize: 14 }
+            },
+            tooltip: { trigger: 'axis' },
+            legend: {
+                top: 40,
+                selectedMode: true, // 必须开启
+                itemWidth: 25,      // 圆形尺寸
+                itemHeight: 25,
+                data: getLegendData(), // 初始化图例颜色
+                // 强制所有系列默认为“选中”，防止ECharts自动变灰
+                selected: {
+                    '红色系列': true,
+                    '绿色系列': true,
+                    '蓝色系列': true
+                }
+            },
+            xAxis: { data: ['A', 'B', 'C', 'D', 'E'] },
+            yAxis: {},
+            series: getSeriesData() // 初始化系列数据
+        };
+
+        myChart.setOption(option);
+
+        // === 4. 拦截点击逻辑 ===
+        var isRestoring = false;
+
+        myChart.on('legendselectchanged', function(params) {
+            // 防止死循环
+            if (isRestoring) return;
+            isRestoring = true;
+
+            var name = params.name;
+            
+            // 1. 切换状态 (显示 <-> 隐藏)
+            visibilityState[name] = !visibilityState[name];
+
+            // 2. 重新更新图表
+            myChart.setOption({
+                legend: {
+                    // 更新图例颜色（变淡或恢复）
+                    data: getLegendData(),
+                    // 【关键】始终强制所有系列为 true (选中状态)
+                    // 只有这样，图例才不会变成灰色的 inactiveColor
+                    selected: {
+                        '红色系列': true,
+                        '绿色系列': true,
+                        '蓝色系列': true
+                    }
+                },
+                // 更新 Series 数据（有数据 或 空数组）
+                series: getSeriesData()
+            });
+
+            // 解锁
+            setTimeout(function() {
+                isRestoring = false;
+            }, 10);
+        });
+
+        window.onresize = function() {
+            myChart.resize();
+        };
+    </script>
+</body>
+</html>
+…………
 自定义legend方式3
 <!DOCTYPE html>
 <html>
