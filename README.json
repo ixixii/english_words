@@ -1,3 +1,63 @@
+既然决定不引入官方全局 CSS 文件，最好的办法就是在局部 CSS 中精准重写 Element Plus 的核心变量。
+这种方式比硬改 .el-xxx 类名要高效得多，因为它利用了组件内部的逻辑。
+局部暗色精简变量清单
+你可以直接将这段代码复制到你的 .vue 文件的 <style scoped> 中。只要你的 HTML 结构包裹在 .local-dark-theme 类下，它就会自动生效。
+/* 局部暗色样式容器 */
+.local-dark-theme {
+  /* 基础背景与文字 */
+  --el-bg-color: #1a1a1a;                /* 输入框背景 */
+  --el-bg-color-overlay: #242424;        /* 日期面板、下拉框背景 */
+  --el-text-color-primary: #e5eaf3;      /* 主要文字 */
+  --el-text-color-regular: #cfd3dc;      /* 常规文字/Radio文字 */
+  --el-text-color-placeholder: #636466;  /* 占位符 */
+
+  /* 边框与填充 */
+  --el-border-color: #4c4d4f;            /* 边框颜色 */
+  --el-border-color-light: #414243;      /* 分割线颜色 */
+  --el-fill-color-blank: #1a1a1a;        /* 输入框内部背景 */
+  --el-fill-color-light: #323232;        /* 悬浮时的填充色 */
+
+  /* 状态颜色 */
+  --el-color-primary: #409eff;           /* 保持品牌蓝，或调深一点 */
+  --el-color-primary-light-9: #18222c;   /* 选中状态的极浅背景 */
+
+  background-color: #141414;             /* 整个区域的底色 */
+  padding: 24px;
+  color: var(--el-text-color-primary);
+}
+
+/* 针对日期选择器的特殊微调 */
+:deep(.el-picker-panel) {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid var(--el-border-color-light);
+}
+
+/* 针对 Radio 选中状态的边框适配 */
+:deep(.el-radio__inner) {
+  background-color: transparent;
+}
+
+配合使用方法
+在 Template 中，你需要手动给最外层加上对应的类，并对特殊组件使用 teleported：
+<template>
+  <div class="local-dark-theme">
+    <el-date-picker v-model="d" type="date" :teleported="false" />
+
+    <el-radio-group v-model="r" class="mt-4">
+      <el-radio value="1">暗色单选</el-radio>
+    </el-radio-group>
+
+    <el-button-group class="ml-4">
+      <el-button>取消</el-button>
+      <el-button type="primary">确认</el-button>
+    </el-button-group>
+  </div>
+</template>
+
+为什么这一小段代码就够了？
+Element Plus 的组件结构像一棵树，它通过 var() 函数向上寻找颜色。我们在 .local-dark-theme 这一层级重新定义了这些“变量名”，子组件就会优先使用我们定义的“暗色值”，而不会去管全局 html 标签是什么颜色。
+如果你发现某个角落（比如日期选择器的“今天”按钮文字）颜色还是不对，我可以帮你再针对性地补上一两条变量定义。需要检查一下悬浮态的效果吗？
+………………
 这是一个非常实用的需求。既然你已经通过 .dark 类和局部容器实现了日期选择器的暗色化，对于 el-radio 和 el-button-group，操作逻辑是完全一致的。
 由于 Radio 和 Button 组件不像日期选择器那样有“弹出层”，它们默认就在当前的 DOM 树中，所以实现起来比日期选择器更简单：只需要确保它们被包裹在 .dark 类的容器内即可。
 完整局部暗色方案代码
