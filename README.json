@@ -1,4 +1,79 @@
+这是一个非常实用的需求。既然你已经通过 .dark 类和局部容器实现了日期选择器的暗色化，对于 el-radio 和 el-button-group，操作逻辑是完全一致的。
+由于 Radio 和 Button 组件不像日期选择器那样有“弹出层”，它们默认就在当前的 DOM 树中，所以实现起来比日期选择器更简单：只需要确保它们被包裹在 .dark 类的容器内即可。
+完整局部暗色方案代码
+<template>
+  <div class="my-dark-section dark">
+    <h3 style="color: var(--el-text-color-primary)">局部暗色区域</h3>
 
+    <div class="item">
+      <el-date-picker
+        v-model="dateValue"
+        type="date"
+        placeholder="选择日期"
+        :teleported="false"
+      />
+    </div>
+
+    <div class="item">
+      <el-radio-group v-model="radioValue">
+        <el-radio value="1" size="large">选项 A</el-radio>
+        <el-radio value="2" size="large">选项 B</el-radio>
+      </el-radio-group>
+    </div>
+
+    <div class="item">
+      <el-button-group>
+        <el-button type="primary">上一页</el-button>
+        <el-button type="primary">首页</el-button>
+        <el-button type="primary">下一页</el-button>
+      </el-button-group>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+// 引入暗色变量（如果全局没引，就在这里引）
+import 'element-plus/theme-chalk/dark/css-vars.css'
+
+const dateValue = ref('')
+const radioValue = ref('1')
+</script>
+
+<style scoped>
+/* 定义暗色背景，模拟暗色主题 */
+.my-dark-section {
+  background-color: #121212; /* 深色背景 */
+  padding: 30px;
+  border-radius: 12px;
+  color-scheme: dark; /* 告诉浏览器内部使用暗色方案 */
+}
+
+.item {
+  margin-bottom: 20px;
+}
+
+/* 针对 Radio 的小细节优化：如果是 Radio Button 模式 */
+:deep(.el-radio-button__inner) {
+  /* 局部暗色下，Radio Button 的边框和背景会自动适配 */
+}
+</style>
+
+为什么这样做能生效？
+ * CSS 变量继承：Element Plus 的组件内部大量使用了类似 var(--el-bg-color) 的 CSS 变量。当你在父级添加 .dark 类时，dark/css-vars.css 中定义的暗色变量值会覆盖默认的亮色值，并向下继承给子组件。
+ * 无需 Teleport 的组件：el-radio 和 el-button-group 始终在它们声明的位置渲染，所以只要父级有 .dark 类，它们百分之百会变为暗色。
+ * 色彩隔离：只要你的 style scoped 中只针对 .my-dark-section 进行背景设置，这个页面的其余部分以及其他路由页面完全不会受到影响。
+进阶建议：
+如果你发现某个组件的颜色在暗色模式下不够理想（例如 Radio 的选中颜色），你可以在 .my-dark-section 类下局部重写这些变量，而不会影响全局：
+.my-dark-section {
+  /* 只在这个区域把主题色改成橙色 */
+  --el-color-primary: #ff9900;
+  --el-color-primary-light-3: #ffb84d;
+  --el-color-primary-dark-2: #cc7a00;
+}
+
+这样你不仅实现了局部暗色，还实现了局部主题定制。
+………………
 elementplus暗色日期选择组件
 完全可以实现。
 如果你不想污染全局 <html> 标签的类名，也不想影响其他路由页面，可以通过 局部作用域隔离 的方式来实现。
